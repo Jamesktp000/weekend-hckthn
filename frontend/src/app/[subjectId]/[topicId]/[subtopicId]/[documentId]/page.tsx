@@ -21,6 +21,14 @@ export default function DocumentPage({
 
   const relatedDocuments = subtopic.documents.filter(doc => doc.id !== document.id);
 
+  // Fix PDF path - remove duplicate 'documents/' if exists
+  let pdfPath = document.documentPath || '';
+  pdfPath = pdfPath.replace(/^\/+/, '');
+  if (pdfPath.startsWith('documents/')) {
+    pdfPath = pdfPath.substring('documents/'.length);
+  }
+  const fixedPdfPath = `/documents/${pdfPath}`;
+
   return (
     <div className="min-h-screen" style={{
       background: 'linear-gradient(135deg, #db2777 0%, #a855f7 35%, #6366f1 60%, #1e40af 100%)'
@@ -91,7 +99,7 @@ export default function DocumentPage({
                     ดาวน์โหลดหรือเปิดเอกสารเพื่อดูเนื้อหาแบบเต็ม
                   </p>
                   <a
-                    href={`/documents${document.documentPath}`}
+                    href={fixedPdfPath}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg noto-sans-thai-medium transition flex items-center space-x-2"
@@ -106,7 +114,7 @@ export default function DocumentPage({
                 {/* PDF Embed Viewer */}
                 <div className="w-full bg-white rounded-lg overflow-hidden" style={{ height: '800px' }}>
                   <iframe
-                    src={`/documents${document.documentPath}#toolbar=1&navpanes=1`}
+                    src={`${fixedPdfPath}#toolbar=1&navpanes=1`}
                     className="w-full h-full"
                     title={document.title}
                   />

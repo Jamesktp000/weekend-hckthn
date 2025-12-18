@@ -61,6 +61,26 @@ export default function SubtopicPage({ params }: { params: { subjectId: string; 
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {subtopic.documents.map((doc) => {
+              // Fix path - ensure correct format: /documents/YYYY/MM/filename.pdf
+              let pdfPath = doc.documentPath || '';
+              
+              // Remove leading slashes
+              pdfPath = pdfPath.replace(/^\/+/, '');
+              
+              // If path starts with 'documents/', extract the part after it
+              if (pdfPath.startsWith('documents/')) {
+                pdfPath = pdfPath.substring('documents/'.length);
+              }
+              
+              // Add /documents/ prefix and make it absolute URL
+              const absolutePdfUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/documents/${pdfPath}`;
+              
+              console.log('PDF URL:', {
+                original: doc.documentPath,
+                cleaned: pdfPath,
+                absolute: absolutePdfUrl
+              });
+              
               return (
                 <Link
                   key={doc.id}
@@ -71,7 +91,7 @@ export default function SubtopicPage({ params }: { params: { subjectId: string; 
                   {doc.documentPath && doc.documentType === 'pdf' && (
                     <div className="relative h-64">
                       <PDFPreview 
-                        pdfUrl={doc.documentPath}
+                        pdfUrl={absolutePdfUrl}
                         title={doc.title}
                         className="h-full w-full"
                       />
