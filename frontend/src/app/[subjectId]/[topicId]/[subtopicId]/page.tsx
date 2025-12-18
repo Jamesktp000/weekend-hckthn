@@ -71,7 +71,7 @@ export default function SubtopicPage({ params }: { params: { subjectId: string; 
                   {doc.documentPath && doc.documentType === 'pdf' && (
                     <div className="relative h-64">
                       <PDFPreview 
-                        pdfUrl={`/documents${doc.documentPath}`}
+                        pdfUrl={doc.documentPath}
                         title={doc.title}
                         className="h-full w-full"
                       />

@@ -24,18 +24,19 @@ export default function PDFPreview({ pdfUrl, title, className = '' }: PDFPreview
         
         console.log('Loading PDF from:', pdfUrl);
         
-        // Dynamically import pdfjs-dist
-        const pdfjsLib = await import('pdfjs-dist');
+        // Dynamically import pdfjs-dist legacy build (better Next.js compatibility)
+        const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf');
         
-        // Set worker source to use legacy build (more compatible)
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+        // Set worker source to use legacy build
+        const workerVersion = '3.11.174';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${workerVersion}/pdf.worker.min.js`;
         
-        console.log('PDF.js version:', pdfjsLib.version);
+        console.log('PDF.js loaded');
         
         // Load PDF with CORS configuration
         const loadingTask = pdfjsLib.getDocument({
           url: pdfUrl,
-          cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/cmaps/',
+          cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdfjs-dist/${workerVersion}/cmaps/`,
           cMapPacked: true,
         });
         
