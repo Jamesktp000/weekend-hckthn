@@ -277,7 +277,7 @@ export const topics: Topic[] = [
             title: 'ประกันวินาศภัยรถจักรยานยนต์', 
             preview: 'ความคุ้มครองสำหรับรถจักรยานยนต์ ชับบ์สามัคคีประกันภัย...', 
             lastUpdated: '8 ธ.ค. 2567',
-            documentPath: '/documents/2025/03/สื่อความสาขา-_-ขั้นตอนการจองที่พัก-ผู้จัดการพื้นที่ขึ้นไป.pdf',
+            documentPath: '/documents/2025/04/สื่อความสาขา-_-ประกันวินาศภัยรถจักรยานยนต์-ชับบ์สามัคคีประกันภัย.pdf',
             documentType: 'pdf'
           },
           { 
@@ -285,7 +285,7 @@ export const topics: Topic[] = [
             title: 'ประกันรถยนต์ผ่อน 0%', 
             preview: 'โปรโมชั่นพิเศษ ประกันรถยนต์ผ่อนดอกเบี้ย 0%...', 
             lastUpdated: '5 เม.ย. 2567',
-            documentPath: '/documents/2025/04/สื่อความสาขา-_-Branch-Support-System.pdf',
+            documentPath: '/documents/2025/04/สื่อความสาขา-_-ประกันรถยนต์ผ่อน-0-2.pdf',
             documentType: 'pdf'
           }
         ]
