@@ -20,9 +20,6 @@ export default function SearchBar() {
         <p className="text-2xl text-white/90 mb-4 noto-sans-thai-regular max-w-4xl mx-auto leading-relaxed">
           ค้นหาอัจฉริยะในเอกสาร นโยบาย และประกาศทั้งหมดของคุณ
         </p>
-        <p className="text-lg text-white/70 noto-sans-thai-light max-w-2xl mx-auto">
-          ระบบค้นหาที่ทันสมัยด้วยปัญญาประดิษฐ์ที่เข้าใจภาษาไทย
-        </p>
       </div>
 
       {/* Enhanced Search Bar */}

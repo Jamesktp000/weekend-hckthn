@@ -24,7 +24,7 @@ export default function Navbar() {
           
           {/* Navigation items */}
           <div className="flex items-center space-x-2">
-            <Link href="/" className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
+            <Link href="/" className="text-white px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300 shadow-md hover:shadow-lg" style={{ backgroundColor: '#1e3a8a' }}>
               หน้าหลัก
             </Link>
             <button className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
@@ -33,7 +33,7 @@ export default function Navbar() {
             <button className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
               ระบบ Jira
             </button>
-            <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:from-pink-600 hover:to-purple-700 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300 shadow-md hover:shadow-lg">
+            <button className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
               ADHOC
             </button>
           </div>
