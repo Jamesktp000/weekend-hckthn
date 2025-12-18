@@ -567,3 +567,49 @@ export function getDocumentViewerUrl(document: Document): string {
   // For images, return direct path
   return docUrl;
 }
+
+// Mock Search Results for testing
+export const mockSearchResults = [
+  {
+    id: 'search-1',
+    title: 'การขายประกันรถยนต์ชั้น 1',
+    url: '/documents/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-2.pdf',
+    description: 'คู่มือการขายประกันภัยรถยนต์ชั้น 1 ฉบับล่าสุด เวอร์ชัน 3.0 ครอบคลุมความคุ้มครองแบบเต็มรูปแบบ ทั้งความเสียหายต่อตนเองและบุคคลภายนอก',
+    relevanceScore: 0.95
+  },
+  {
+    id: 'search-2',
+    title: 'การคิด KPI ระดับสาขา',
+    url: '/documents/2025/03/สื่อความสาขา-_-การคิด-KPI-ระดับสาขา.pdf',
+    description: 'คู่มือการคำนวณ KPI ระดับสาขา เป้าหมายการขายรวม รายละเอียดการวัดผลและการประเมินผลงาน',
+    relevanceScore: 0.88
+  },
+  {
+    id: 'search-3',
+    title: 'Branch Support System',
+    url: '/documents/2025/04/สื่อความสาขา-_-Branch-Support-System.pdf',
+    description: 'ระบบสนับสนุนการทำงานสาขา คู่มือการใช้งานและฟีเจอร์ต่างๆ สำหรับการจัดการงานประจำวัน',
+    relevanceScore: 0.82
+  },
+  {
+    id: 'search-4',
+    title: 'แคมเปญนักล่าบ้าสมบัติ ปี 2568',
+    url: '/documents/2025/04/สื่อความสาขา-_-Horaland-4.pdf',
+    description: 'แคมเปญส่งเสริมลูกค้าใหม่ สำหรับปี 2568 โปรโมชั่นพิเศษและเงื่อนไขการเข้าร่วม',
+    relevanceScore: 0.76
+  },
+  {
+    id: 'search-5',
+    title: 'การเก็บ เบิก และคืนเอกสารสินเชื่อ',
+    url: '/documents/2025/03/สื่อความสาขา-_-การเก็บ-เบิก-และคืนเอกสารประกอบการทำสินเชื่อ.pdf',
+    description: 'ขั้นตอนการจัดเก็บ เบิกใช้ และคืนเอกสารประกอบการทำสินเชื่อ ตามมาตรฐานของบริษัท',
+    relevanceScore: 0.71
+  },
+  {
+    id: 'search-6',
+    title: 'Turbolympic แคมเปญพิเศษ',
+    url: '/documents/2025/03/สื่อความสาขา-_-Turbolympic.pdf',
+    description: 'แคมเปญ Turbolympic กิจกรรมส่งเสริมการขายพิเศษ รางวัลและการแข่งขันระหว่างสาขา',
+    relevanceScore: 0.68
+  }
+];
