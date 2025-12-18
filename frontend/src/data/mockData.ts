@@ -404,8 +404,8 @@ export const changeLog: ChangeLogEntry[] = [
     changes: [
       {
         field: 'วันหมดอายุแพคเกจประกันรถยนต์ชั้น 1',
-        from: '31 มีนาคม 2568',
-        to: '31 พฤษภาคม 2568'
+        from: '31 พฤษภาคม 2568',
+        to: '31 ธันวาคม 2568'
       }
     ]
   }
