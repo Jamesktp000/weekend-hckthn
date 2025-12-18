@@ -5,14 +5,14 @@ import Image from 'next/image';
 
 export default function Navbar() {
   return (
-    <nav className="bg-white/12 backdrop-blur-xl border-b border-white/25 shadow-lg">
+    <nav className="bg-white/95 backdrop-blur-xl border-b border-gray-200/50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center hover:scale-105 transition-transform duration-300">
             <div className="relative w-auto h-14 flex items-center justify-center">
               <Image 
-                src="/logo.svg" 
+                src="/logo.png" 
                 alt="เงินเกอร์โบ" 
                 width={140} 
                 height={56}
@@ -24,16 +24,16 @@ export default function Navbar() {
           
           {/* Navigation items */}
           <div className="flex items-center space-x-2">
-            <Link href="/" className="text-white/90 hover:text-white hover:bg-white/15 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
+            <Link href="/" className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
               หน้าหลัก
             </Link>
-            <button className="text-white/90 hover:text-white hover:bg-white/15 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
+            <button className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
               ติดต่อสำนักงานใหญ่
             </button>
-            <button className="text-white/90 hover:text-white hover:bg-white/15 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
+            <button className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
               ระบบ Jira
             </button>
-            <button className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-white hover:from-pink-500/30 hover:to-purple-500/30 border border-white/30 hover:border-white/50 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
+            <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:from-pink-600 hover:to-purple-700 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300 shadow-md hover:shadow-lg">
               ADHOC
             </button>
           </div>
