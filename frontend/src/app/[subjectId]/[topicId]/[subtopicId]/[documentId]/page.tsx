@@ -3,17 +3,19 @@ import { notFound } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import AnnouncementBar from '@/components/AnnouncementBar';
 import SearchBar from '@/components/SearchBar';
-import { getDocumentById, getSubtopicById } from '@/data/mockData';
+import { getDocumentById, getSubtopicById, getTopicById, mainSubjects } from '@/data/mockData';
 
 export default function DocumentPage({ 
   params 
 }: { 
-  params: { topicId: string; subtopicId: string; documentId: string } 
+  params: { subjectId: string; topicId: string; subtopicId: string; documentId: string } 
 }) {
+  const subject = mainSubjects.find(s => s.id === params.subjectId);
+  const topic = getTopicById(params.topicId);
   const document = getDocumentById(params.topicId, params.subtopicId, params.documentId);
   const subtopic = getSubtopicById(params.topicId, params.subtopicId);
 
-  if (!document || !subtopic) {
+  if (!document || !subtopic || !topic || !subject) {
     notFound();
   }
 
@@ -35,11 +37,15 @@ export default function DocumentPage({
             หน้าหลัก
           </Link>
           <span>/</span>
-          <Link href={`/${params.topicId}`} className="hover:text-white transition">
-            {params.topicId}
+          <Link href={`/${params.subjectId}`} className="hover:text-white transition">
+            {subject.name}
           </Link>
           <span>/</span>
-          <Link href={`/${params.topicId}/${params.subtopicId}`} className="hover:text-white transition">
+          <Link href={`/${params.subjectId}/${params.topicId}`} className="hover:text-white transition">
+            {topic.name}
+          </Link>
+          <span>/</span>
+          <Link href={`/${params.subjectId}/${params.topicId}/${params.subtopicId}`} className="hover:text-white transition">
             {subtopic.name}
           </Link>
           <span>/</span>
@@ -51,7 +57,7 @@ export default function DocumentPage({
           <div className="flex items-center justify-between mb-6">
             <div>
               <Link
-                href={`/${params.topicId}/${params.subtopicId}`}
+                href={`/${params.subjectId}/${params.topicId}/${params.subtopicId}`}
                 className="text-white/80 hover:text-white mb-4 flex items-center space-x-2 noto-sans-thai-medium"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,7 +243,7 @@ export default function DocumentPage({
                 {relatedDocuments.map((doc) => (
                   <Link
                     key={doc.id}
-                    href={`/${params.topicId}/${params.subtopicId}/${doc.id}`}
+                    href={`/${params.subjectId}/${params.topicId}/${params.subtopicId}/${doc.id}`}
                     className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/15 transition text-left"
                   >
                     <h4 className="text-white noto-sans-thai-medium mb-2">{doc.title}</h4>

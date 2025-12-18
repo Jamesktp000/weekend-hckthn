@@ -3,12 +3,13 @@ import { notFound } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import AnnouncementBar from '@/components/AnnouncementBar';
 import SearchBar from '@/components/SearchBar';
-import { getTopicById } from '@/data/mockData';
+import { getTopicById, mainSubjects } from '@/data/mockData';
 
-export default function TopicPage({ params }: { params: { topicId: string } }) {
+export default function TopicPage({ params }: { params: { subjectId: string; topicId: string } }) {
+  const subject = mainSubjects.find(s => s.id === params.subjectId);
   const topic = getTopicById(params.topicId);
 
-  if (!topic) {
+  if (!topic || !subject) {
     notFound();
   }
 
@@ -28,6 +29,10 @@ export default function TopicPage({ params }: { params: { topicId: string } }) {
             หน้าหลัก
           </Link>
           <span>/</span>
+          <Link href={`/${params.subjectId}`} className="hover:text-white transition">
+            {subject.name}
+          </Link>
+          <span>/</span>
           <span className="text-white">{topic.name}</span>
         </div>
 
@@ -35,13 +40,13 @@ export default function TopicPage({ params }: { params: { topicId: string } }) {
         <div className="space-y-6">
           <div className="mb-6">
             <Link
-              href="/"
+              href={`/${params.subjectId}`}
               className="text-white/80 hover:text-white mb-4 flex items-center space-x-2 noto-sans-thai-medium"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              <span>กลับไปหน้าหลัก</span>
+              <span>กลับไป{subject.name}</span>
             </Link>
             <h2 className="text-4xl noto-sans-thai-bold text-white flex items-center space-x-3">
               <span>{topic.icon}</span>
@@ -53,7 +58,7 @@ export default function TopicPage({ params }: { params: { topicId: string } }) {
             {topic.subtopics.map((subtopic) => (
               <Link
                 key={subtopic.id}
-                href={`/${topic.id}/${subtopic.id}`}
+                href={`/${params.subjectId}/${topic.id}/${subtopic.id}`}
                 className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition text-left group"
               >
                 <h3 className="text-2xl noto-sans-thai-semibold text-white mb-3 group-hover:text-pink-300 transition">
