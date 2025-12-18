@@ -225,16 +225,6 @@ function CompareContent() {
               <p className="text-red-200 noto-sans-thai-regular">{comparisonError}</p>
             </div>
           )}
-
-          {/* Debug Info */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="mt-4 bg-white/5 border border-white/10 rounded-lg p-4 text-xs">
-              <p className="text-white/60">Debug: Current URL: {currentVersionUrl}</p>
-              <p className="text-white/60">Debug: Compare URL: {compareVersionUrl}</p>
-              <p className="text-white/60">Debug: Comparing: {isComparing ? 'Yes' : 'No'}</p>
-              <p className="text-white/60">Debug: Has Result: {comparisonResult ? 'Yes' : 'No'}</p>
-            </div>
-          )}
         </div>
 
         {/* PDF Comparison Results */}
