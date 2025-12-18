@@ -57,6 +57,47 @@ export interface ChangeLogEntry {
   }[];
 }
 
+// Main subjects/categories for the features section
+export interface MainSubject {
+  id: string;
+  name: string;
+  iconType: 'book' | 'ebook' | 'learning' | 'shop' | 'forms';
+  gradient: string;
+}
+
+export const mainSubjects: MainSubject[] = [
+  {
+    id: 'books',
+    name: 'สื่อความสาขา',
+    iconType: 'book',
+    gradient: 'from-pink-500/40 to-pink-600/40'
+  },
+  {
+    id: 'ebook',
+    name: 'eBook Center',
+    iconType: 'ebook',
+    gradient: 'from-purple-500/40 to-purple-600/40'
+  },
+  {
+    id: 'elearning',
+    name: 'e - Learning',
+    iconType: 'learning',
+    gradient: 'from-indigo-500/40 to-indigo-600/40'
+  },
+  {
+    id: 'shop',
+    name: 'Turbo Shop',
+    iconType: 'shop',
+    gradient: 'from-blue-500/40 to-blue-600/40'
+  },
+  {
+    id: 'forms',
+    name: 'แบบฟอร์มต่างๆ',
+    iconType: 'forms',
+    gradient: 'from-cyan-500/40 to-cyan-600/40'
+  }
+];
+
 export const topics: Topic[] = [
   {
     id: 'product',
@@ -271,7 +312,10 @@ export const topics: Topic[] = [
         ]
       }
     ]
-  },
+  }
+];
+// Continue with the rest of the topics array
+const remainingTopics: Topic[] = [
   {
     id: 'kpi',
     name: 'KPI & Incentive',
@@ -461,6 +505,9 @@ export const topics: Topic[] = [
     ]
   }
 ];
+
+// Merge the topics arrays
+topics.push(...remainingTopics);
 
 export const changeLog: ChangeLogEntry[] = [
   {
