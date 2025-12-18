@@ -1,7 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { topics, getDocumentUrl, type Document } from '@/data/mockData';
+import { searchDocuments, SearchSource } from '@/services/bedrockSearch';
+import { matchSearchSourcesToDocuments, buildDocumentUrl, MatchedDocument } from '@/utils/documentMatcher';
 
 interface SearchResult {
   id: string;
@@ -15,10 +19,17 @@ interface SearchResult {
 }
 
 export default function SearchBar() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [useAISearch, setUseAISearch] = useState(true);
+  
+  // AI Search states
+  const [answer, setAnswer] = useState('');
+  const [matchedResults, setMatchedResults] = useState<MatchedDocument[]>([]);
+  const [unmatchedSources, setUnmatchedSources] = useState<SearchSource[]>([]);
 
   // Get all documents from topics
   const getAllDocuments = (): Document[] => {
@@ -109,6 +120,9 @@ export default function SearchBar() {
     
     if (!searchQuery.trim()) {
       setSearchResults([]);
+      setAnswer('');
+      setMatchedResults([]);
+      setUnmatchedSources([]);
       return;
     }
 
@@ -116,19 +130,39 @@ export default function SearchBar() {
     setError(null);
 
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // Search documents from topics
-      const foundDocuments = searchInDocuments(searchQuery);
-      
-      // Convert to SearchResult format with relevance scores
-      const results = foundDocuments
-        .map(doc => convertToSearchResult(doc, searchQuery))
-        .sort((a, b) => b.relevanceScore - a.relevanceScore) // Sort by relevance
-        .slice(0, 12); // Limit to top 12 results
-      
-      setSearchResults(results);
+      if (useAISearch) {
+        // AI Search
+        setAnswer('');
+        setMatchedResults([]);
+        setUnmatchedSources([]);
+        
+        const response = await searchDocuments(searchQuery);
+        setAnswer(response.answer);
+
+        // Match sources to documents
+        const matched = matchSearchSourcesToDocuments(response.sources);
+        setMatchedResults(matched);
+
+        // Find unmatched sources
+        const matchedFileNames = new Set(matched.map(m => m.source.fileName));
+        const unmatched = response.sources.filter(s => !matchedFileNames.has(s.fileName));
+        setUnmatchedSources(unmatched);
+      } else {
+        // Regular Search
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Search documents from topics
+        const foundDocuments = searchInDocuments(searchQuery);
+        
+        // Convert to SearchResult format with relevance scores
+        const results = foundDocuments
+          .map(doc => convertToSearchResult(doc, searchQuery))
+          .sort((a, b) => b.relevanceScore - a.relevanceScore) // Sort by relevance
+          .slice(0, 12); // Limit to top 12 results
+        
+        setSearchResults(results);
+      }
       
     } catch (err) {
       console.error('Search error:', err);
@@ -259,8 +293,68 @@ export default function SearchBar() {
         </div>
       )}
 
-      {/* Search Results */}
-      {searchResults.length > 0 && !isLoading && (
+      {/* AI Search Results */}
+      {useAISearch && answer && !isLoading && (
+        <div className="mt-12 max-w-6xl mx-auto text-left">
+          {/* Answer Section */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 mb-8">
+            <h2 className="text-2xl noto-sans-thai-semibold text-white mb-4">คำตอบ</h2>
+            <p className="text-white/90 noto-sans-thai-regular leading-relaxed">{answer}</p>
+          </div>
+
+          {/* Matched Documents */}
+          {matchedResults.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-2xl noto-sans-thai-semibold text-white mb-4">เอกสารที่เกี่ยวข้อง</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {matchedResults.map((result, index) => (
+                  <Link
+                    key={index}
+                    href={buildDocumentUrl(result)}
+                    className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 hover:border-pink-500/50 transition group"
+                  >
+                    <div className="flex items-start justify-between">
+                      <h3 className="text-white noto-sans-thai-semibold line-clamp-2 group-hover:text-pink-200 transition flex-1">
+                        {result.document.title}
+                      </h3>
+                      <svg className="w-5 h-5 text-pink-300 opacity-0 group-hover:opacity-100 transition flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Unmatched Sources */}
+          {unmatchedSources.length > 0 && (
+            <div>
+              <h2 className="text-2xl noto-sans-thai-semibold text-white mb-4">แหล่งข้อมูลอื่นๆ</h2>
+              <div className="space-y-3">
+                {unmatchedSources.map((source, index) => (
+                  <div
+                    key={index}
+                    className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+                  >
+                    <div className="flex items-start justify-between">
+                      <h3 className="text-white noto-sans-thai-semibold flex-1">
+                        {source.fileName}
+                      </h3>
+                      <span className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs noto-sans-thai-medium ml-4">
+                        ไม่มีในระบบ
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Regular Search Results */}
+      {!useAISearch && searchResults.length > 0 && !isLoading && (
         <div className="mt-12 max-w-6xl mx-auto text-left">
           <div className="mb-6">
             <h2 className="text-2xl text-white noto-sans-thai-bold mb-2">
@@ -326,8 +420,23 @@ export default function SearchBar() {
         </div>
       )}
       
-      {/* No Results */}
-      {searchResults.length === 0 && searchQuery && !isLoading && (
+      {/* No Results for AI Search */}
+      {useAISearch && !isLoading && answer && matchedResults.length === 0 && unmatchedSources.length === 0 && (
+        <div className="mt-12 max-w-2xl mx-auto">
+          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/30">
+            <svg className="w-16 h-16 text-white/50 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="text-xl text-white noto-sans-thai-bold mb-2">ไม่พบเอกสารที่เกี่ยวข้อง</h3>
+            <p className="text-white/70 noto-sans-thai-regular">
+              ลองใช้คำค้นหาอื่น หรือตรวจสอบการสะกดคำ
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* No Results for Regular Search */}
+      {!useAISearch && searchResults.length === 0 && searchQuery && !isLoading && (
         <div className="mt-12 max-w-2xl mx-auto">
           <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/30">
             <svg className="w-16 h-16 text-white/50 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
