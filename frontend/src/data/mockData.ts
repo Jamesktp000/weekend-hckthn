@@ -1,4 +1,4 @@
-// Path to actual documents (served from public folder)
+﻿// Path to actual documents (served from public folder)
 export const DOCUMENTS_BASE_PATH = '/documents';
 
 export interface Topic {
@@ -111,7 +111,7 @@ export const topics: Topic[] = [
           { 
             id: 'doc1', 
             title: 'การขายประกันชั้น 1',
-            documentPath: '/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-2.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-2.pdf',
             documentType: 'pdf', 
             preview: 'คู่มือการขายประกันภัยรถยนต์ชั้น 1 ฉบับล่าสุด เวอร์ชัน 3.0', 
             lastUpdated: '15 ธ.ค. 2567',
@@ -269,7 +269,7 @@ export const topics: Topic[] = [
             title: 'ประกันภัยรถยนต์ชั้น 2+', 
             preview: 'ความคุ้มครองรถยนต์สูญหาย ไฟไหม้ และความเสียหายจากอุบัติเหตุ...', 
             lastUpdated: '10 ธ.ค. 2567',
-            documentPath: '/2025/03/สื่อความสาขา-_-การเก็บ-เบิก-และคืนเอกสารประกอบการทำสินเชื่อ.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-การเก็บ-เบิก-และคืนเอกสารประกอบการทำสินเชื่อ.pdf',
             documentType: 'pdf'
           },
           { 
@@ -277,7 +277,7 @@ export const topics: Topic[] = [
             title: 'ประกันวินาศภัยรถจักรยานยนต์', 
             preview: 'ความคุ้มครองสำหรับรถจักรยานยนต์ ชับบ์สามัคคีประกันภัย...', 
             lastUpdated: '8 ธ.ค. 2567',
-            documentPath: '/2025/03/สื่อความสาขา-_-ขั้นตอนการจองที่พัก-ผู้จัดการพื้นที่ขึ้นไป.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-ขั้นตอนการจองที่พัก-ผู้จัดการพื้นที่ขึ้นไป.pdf',
             documentType: 'pdf'
           },
           { 
@@ -285,7 +285,7 @@ export const topics: Topic[] = [
             title: 'ประกันรถยนต์ผ่อน 0%', 
             preview: 'โปรโมชั่นพิเศษ ประกันรถยนต์ผ่อนดอกเบี้ย 0%...', 
             lastUpdated: '5 เม.ย. 2567',
-            documentPath: '/2025/04/สื่อความสาขา-_-Branch-Support-System.pdf',
+            documentPath: '/documents/2025/04/สื่อความสาขา-_-Branch-Support-System.pdf',
             documentType: 'pdf'
           }
         ]
@@ -330,7 +330,7 @@ const remainingTopics: Topic[] = [
             title: 'การคิด KPI ระดับสาขา', 
             preview: 'คู่มือการคำนวณ KPI ระดับสาขา เป้าหมายการขายรวม รายละเอียดการวัดผล...', 
             lastUpdated: '1 มี.ค. 2567',
-            documentPath: '/2025/03/สื่อความสาขา-_-การคิด-KPI-ระดับสาขา.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-การคิด-KPI-ระดับสาขา.pdf',
             documentType: 'pdf'
           },
           { 
@@ -338,7 +338,7 @@ const remainingTopics: Topic[] = [
             title: 'การดูข้อมูลเป้าหมายใน Power BI', 
             preview: 'วิธีการเข้าถึงและตรวจสอบเป้าหมายรายสาขาผ่านระบบ Power BI...', 
             lastUpdated: '5 มี.ค. 2567',
-            documentPath: '/2025/03/สื่อความสาขา-_-การดูข้อมูลเป้าหมายรายสาขาใน-Power-Bi.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-การดูข้อมูลเป้าหมายรายสาขาใน-Power-Bi.pdf',
             documentType: 'pdf'
           },
           { 
@@ -346,7 +346,7 @@ const remainingTopics: Topic[] = [
             title: 'การคิด Incentive ระดับสาขา', 
             preview: 'คู่มือการคำนวณค่าตอบแทนพิเศษ Incentive สำหรับระดับสาขา...', 
             lastUpdated: '15 เม.ย. 2567',
-            documentPath: '/2025/04/สื่อความสาขา-_-การคิด-Incentive-ระดับสาขา-1.pdf',
+            documentPath: '/documents/2025/04/สื่อความสาขา-_-การคิด-Incentive-ระดับสาขา-1.pdf',
             documentType: 'pdf'
           }
         ]
@@ -367,7 +367,7 @@ const remainingTopics: Topic[] = [
             title: 'แคมเปญนักล่าบ้าสมบัติ ปี 2568', 
             preview: 'แคมเปญส่งเสริมลูกค้าใหม่ สำหรับปี 2568 โปรโมชั่นพิเศษ...', 
             lastUpdated: '15 มี.ค. 2567',
-            documentPath: '/2025/04/สื่อความสาขา-_-Horaland-4.pdf',
+            documentPath: '/documents/2025/04/สื่อความสาขา-_-Horaland-4.pdf',
             documentType: 'pdf'
           },
           { 
@@ -375,7 +375,7 @@ const remainingTopics: Topic[] = [
             title: 'Turbolympic แคมเปญพิเศษ', 
             preview: 'แคมเปญ Turbolympic กิจกรรมส่งเสริมการขายพิเศษ...', 
             lastUpdated: '20 มี.ค. 2567',
-            documentPath: '/2025/03/สื่อความสาขา-_-Turbolympic.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-Turbolympic.pdf',
             documentType: 'pdf'
           },
           { 
@@ -383,7 +383,7 @@ const remainingTopics: Topic[] = [
             title: 'เทอร์โบไอดอล รอบที่ 13', 
             preview: 'โครงการเทอร์โบไอดอล ยกย่องพนักงานดีเด่น รอบที่ 13...', 
             lastUpdated: '25 มี.ค. 2567',
-            documentPath: '/2025/04/ประกาศสาขา_การเปลี่ยนแปลงการทดสอบประจำเดือน.pdf',
+            documentPath: '/documents/2025/04/ประกาศสาขา_การเปลี่ยนแปลงการทดสอบประจำเดือน.pdf',
             documentType: 'pdf'
           }
         ]
@@ -418,7 +418,7 @@ const remainingTopics: Topic[] = [
             title: 'คู่มือการใช้ระบบตรวจสาขาใน Turbo Form', 
             preview: 'คู่มือการใช้งานระบบตรวจสอบสาขาผ่าน Turbo Form Effective 1 APR...', 
             lastUpdated: '1 มี.ค. 2567',
-            documentPath: '/2025/03/สื่อความสาขา-_-การดูข้อมูลเป้าหมายรายสาขาใน-Power-Bi-1.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-การดูข้อมูลเป้าหมายรายสาขาใน-Power-Bi-1.pdf',
             documentType: 'pdf'
           },
           { 
@@ -426,7 +426,7 @@ const remainingTopics: Topic[] = [
             title: 'การเก็บ เบิก และคืนเอกสารสินเชื่อ', 
             preview: 'ขั้นตอนการจัดเก็บ เบิกใช้ และคืนเอกสารประกอบการทำสินเชื่อ...', 
             lastUpdated: '10 มี.ค. 2567',
-            documentPath: '/2025/03/สื่อความสาขา-_-การเก็บ-เบิก-และคืนเอกสารประกอบการทำสินเชื่อ-1.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-การเก็บ-เบิก-และคืนเอกสารประกอบการทำสินเชื่อ-1.pdf',
             documentType: 'pdf'
           },
           { 
@@ -434,7 +434,7 @@ const remainingTopics: Topic[] = [
             title: 'Branch Support System', 
             preview: 'ระบบสนับสนุนการทำงานสาขา คู่มือการใช้งานและฟีเจอร์ต่างๆ...', 
             lastUpdated: '5 เม.ย. 2567',
-            documentPath: '/2025/04/สื่อความสาขา-_-Branch-Support-System-2.pdf',
+            documentPath: '/documents/2025/04/สื่อความสาขา-_-Branch-Support-System-2.pdf',
             documentType: 'pdf'
           }
         ]
@@ -455,7 +455,7 @@ const remainingTopics: Topic[] = [
             title: 'มาตรฐานการติดตั้งสื่อการตลาดที่สาขา', 
             preview: 'คู่มือและมาตรฐานการติดตั้งสื่อโฆษณา ป้ายประชาสัมพันธ์ที่สาขา...', 
             lastUpdated: '12 มี.ค. 2567',
-            documentPath: '/2025/03/สื่อความสาขา-_-การดูข้อมูลเป้าหมายรายสาขาใน-Power-Bi-2.pdf',
+            documentPath: '/documents/2025/03/สื่อความสาขา-_-การดูข้อมูลเป้าหมายรายสาขาใน-Power-Bi-2.pdf',
             documentType: 'pdf'
           }
         ]
