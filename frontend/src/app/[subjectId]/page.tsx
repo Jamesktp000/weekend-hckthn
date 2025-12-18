@@ -128,13 +128,6 @@ export default function SubjectPage({ params }: { params: { subjectId: string } 
         <div className="space-y-6">
           <div className="mb-6">
             <h2 className="text-4xl noto-sans-thai-bold text-white flex items-center space-x-3">
-              <span>
-                {subject.iconType === 'book' && '📚'}
-                {subject.iconType === 'ebook' && '📱'}
-                {subject.iconType === 'learning' && '🎓'}
-                {subject.iconType === 'shop' && '🛒'}
-                {subject.iconType === 'forms' && '📝'}
-              </span>
               <span>{subject.name}</span>
             </h2>
           </div>
