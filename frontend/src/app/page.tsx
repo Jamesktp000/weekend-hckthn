@@ -2,33 +2,204 @@
 
 import { useState } from 'react';
 
+interface Topic {
+  id: string;
+  name: string;
+  icon: string;
+  subtopics: Subtopic[];
+}
+
+interface Subtopic {
+  id: string;
+  name: string;
+  documents: Document[];
+}
+
+interface Document {
+  id: string;
+  title: string;
+  preview: string;
+  lastUpdated: string;
+}
+
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [showChangeLog, setShowChangeLog] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
+  const [selectedSubtopic, setSelectedSubtopic] = useState<Subtopic | null>(null);
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
 
-  // ข้อมูลตัวอย่างการเปลี่ยนแปลง - คุณสามารถแทนที่ด้วยข้อมูลจริงจากแบ็กเอนด์ของคุณ
-  const changeLog = [
+  // Mock data ตามรูป
+  const topics: Topic[] = [
     {
-      date: '15 มกราคม 2567',
-      announcement: 'การอัปเดตนโยบาย #2024-001',
-      changes: [
-        { field: 'นโยบายความเป็นส่วนตัว', from: 'เก็บข้อมูลเป็นเวลา 90 วัน', to: 'เก็บข้อมูลเป็นเวลา 180 วัน' },
-        { field: 'ข้อกำหนดการใช้งาน', from: 'มาตรา 4.2 - ความรับผิดชอบของผู้ใช้', to: 'มาตรา 4.2 - ความรับผิดชอบของผู้ใช้ที่เพิ่มเติมพร้อมแนวทางใหม่' }
+      id: 'product',
+      name: 'ผลิตภัณฑ์',
+      icon: '🚗',
+      subtopics: [
+        {
+          id: 'car-insurance',
+          name: 'ประกันรถยนต์',
+          documents: [
+            { id: 'doc1', title: 'ประกันภัยรถยนต์ชั้น 1', preview: 'ความคุ้มครองแบบเต็มรูปแบบ รวมถึงความเสียหายต่อรถยนต์ของคุณเอง...', lastUpdated: '15 ธ.ค. 2567' },
+            { id: 'doc2', title: 'ประกันภัยรถยนต์ชั้น 2+', preview: 'ความคุ้มครองรถยนต์สูญหาย ไฟไหม้ และความเสียหายจากอุบัติเหตุ...', lastUpdated: '10 ธ.ค. 2567' }
+          ]
+        },
+        {
+          id: 'health-insurance',
+          name: 'ประกันสุขภาพ',
+          documents: [
+            { id: 'doc3', title: 'แผนประกันสุขภาพพื้นฐาน', preview: 'ความคุ้มครองค่ารักษาพยาบาลในโรงพยาบาลรัฐและเอกชน...', lastUpdated: '12 ธ.ค. 2567' }
+          ]
+        }
       ]
     },
     {
-      date: '10 มกราคม 2567',
-      announcement: 'การอัปเดตระบบ #2024-002',
-      changes: [
-        { field: 'อัลกอริทึมการค้นหา', from: 'การจับคู่คำหลักพื้นฐาน', to: 'การค้นหาความหมายด้วย AI ที่ทนต่อการพิมพ์ผิด' }
+      id: 'insurance',
+      name: 'ประกัน',
+      icon: '🛡️',
+      subtopics: [
+        {
+          id: 'claim-process',
+          name: 'ขั้นตอนการเคลม',
+          documents: [
+            { id: 'doc4', title: 'วิธีการยื่นเคลมประกันรถยนต์', preview: 'ขั้นตอนที่ 1: แจ้งเหตุภายใน 24 ชั่วโมง ขั้นตอนที่ 2: เตรียมเอกสาร...', lastUpdated: '18 ธ.ค. 2567' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'kpi',
+      name: 'KPI & Incentive',
+      icon: '📈',
+      subtopics: [
+        {
+          id: 'sales-kpi',
+          name: 'เป้าหมายการขาย',
+          documents: [
+            { id: 'doc5', title: 'KPI ประจำเดือน ธันวาคม 2567', preview: 'เป้าหมายการขายรวม 1,000,000 บาท แบ่งเป็นประกันรถยนต์ 60%...', lastUpdated: '1 ธ.ค. 2567' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'campaign',
+      name: 'Campaign',
+      icon: '🏆',
+      subtopics: [
+        {
+          id: 'promo',
+          name: 'โปรโมชั่นปัจจุบัน',
+          documents: [
+            { id: 'doc6', title: 'แคมเปญปีใหม่ 2568', preview: 'ส่วนลดพิเศษ 20% สำหรับประกันรถยนต์ทุกชั้น...', lastUpdated: '15 ธ.ค. 2567' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'hr',
+      name: 'HR',
+      icon: '👥',
+      subtopics: [
+        {
+          id: 'leave',
+          name: 'การลางาน',
+          documents: [
+            { id: 'doc7', title: 'นโยบายการลางาน', preview: 'พนักงานมีสิทธิ์ลาพักร้อนปีละ 10 วัน ลาป่วยปีละ 30 วัน...', lastUpdated: '1 ม.ค. 2567' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'operation',
+      name: 'Operation',
+      icon: '📋',
+      subtopics: [
+        {
+          id: 'daily-ops',
+          name: 'การดำเนินงานประจำวัน',
+          documents: [
+            { id: 'doc8', title: 'คู่มือการทำงานประจำวัน', preview: 'เวลาเข้างาน 9:00 น. ตรวจสอบอีเมลและงานค้าง...', lastUpdated: '5 ธ.ค. 2567' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'marketing',
+      name: 'การตลาด',
+      icon: '📢',
+      subtopics: [
+        {
+          id: 'social-media',
+          name: 'โซเชียลมีเดีย',
+          documents: [
+            { id: 'doc9', title: 'แผนการตลาดโซเชียล Q1 2568', preview: 'โพสต์ Facebook วันละ 2 ครั้ง Instagram Stories ทุกวัน...', lastUpdated: '10 ธ.ค. 2567' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'accounting',
+      name: 'บัญชี',
+      icon: '💰',
+      subtopics: [
+        {
+          id: 'expense',
+          name: 'การเบิกค่าใช้จ่าย',
+          documents: [
+            { id: 'doc10', title: 'วิธีการเบิกค่าใช้จ่าย', preview: 'กรอกแบบฟอร์มเบิกค่าใช้จ่าย แนบใบเสร็จต้นฉบับ...', lastUpdated: '3 ธ.ค. 2567' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'knowledge',
+      name: 'สื่อความรู้',
+      icon: '📚',
+      subtopics: [
+        {
+          id: 'training',
+          name: 'คอร์สอบรม',
+          documents: [
+            { id: 'doc11', title: 'หลักสูตรการขายประกัน', preview: 'เทคนิคการขายประกันสำหรับมือใหม่ 10 บทเรียน...', lastUpdated: '8 ธ.ค. 2567' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'faq',
+      name: 'รู้เรื่องไม่?',
+      icon: '❓',
+      subtopics: [
+        {
+          id: 'common-questions',
+          name: 'คำถามที่พบบ่อย',
+          documents: [
+            { id: 'doc12', title: 'FAQ ทั่วไป', preview: 'Q: ประกันรถยนต์ชั้น 1 คืออะไร? A: เป็นประกันที่ให้ความคุ้มครองแบบเต็มรูปแบบ...', lastUpdated: '14 ธ.ค. 2567' }
+          ]
+        }
       ]
     }
   ];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement your search logic here
     console.log('Searching for:', searchQuery);
+  };
+
+  const handleTopicClick = (topic: Topic) => {
+    setSelectedTopic(topic);
+    setSelectedSubtopic(null);
+    setSelectedDocument(null);
+  };
+
+  const handleSubtopicClick = (subtopic: Subtopic) => {
+    setSelectedSubtopic(subtopic);
+    setSelectedDocument(subtopic.documents[0] || null);
+  };
+
+  const handleBackToTopics = () => {
+    setSelectedTopic(null);
+    setSelectedSubtopic(null);
+    setSelectedDocument(null);
   };
 
   return (
@@ -73,64 +244,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Announcement Bar - Change Awareness */}
-      <div className="bg-white/15 backdrop-blur-sm border-b border-white/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <svg className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-              <div>
-                <p className="text-white font-medium">
-                  อัปเดตล่าสุด: {changeLog[0].date} - {changeLog[0].announcement}
-                </p>
-                <p className="text-white/80 text-sm">
-                  มีการเปลี่ยนแปลง {changeLog[0].changes.length} รายการในนโยบายและฟีเจอร์ของระบบ
-                </p>
-              </div>
-            </div>
-            <button 
-              onClick={() => setShowChangeLog(!showChangeLog)}
-              className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
-            >
-              {showChangeLog ? 'ซ่อน' : 'ดู'}การเปลี่ยนแปลงทั้งหมด
-            </button>
-          </div>
 
-          {/* Change Log Details */}
-          {showChangeLog && (
-            <div className="mt-4 bg-white/10 rounded-lg p-4 space-y-4">
-              <h3 className="text-white font-semibold text-lg mb-3">ประวัติการเปลี่ยนแปลงทั้งหมด</h3>
-              {changeLog.map((log, index) => (
-                <div key={index} className="bg-white/10 rounded-lg p-4 border border-white/20">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-white font-medium">{log.announcement}</h4>
-                    <span className="text-white/70 text-sm">{log.date}</span>
-                  </div>
-                  <div className="space-y-2">
-                    {log.changes.map((change, changeIndex) => (
-                      <div key={changeIndex} className="bg-white/5 rounded p-3">
-                        <p className="text-white/90 font-medium mb-1">{change.field}</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                          <div>
-                            <span className="text-red-300 font-medium">จาก: </span>
-                            <span className="text-white/80">{change.from}</span>
-                          </div>
-                          <div>
-                            <span className="text-green-300 font-medium">เป็น: </span>
-                            <span className="text-white/80">{change.to}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
