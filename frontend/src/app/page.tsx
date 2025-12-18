@@ -92,7 +92,7 @@ export default function Home() {
             </div>
             <button 
               onClick={() => setShowChangeLog(!showChangeLog)}
-              className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+              className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm noto-sans-thai-medium transition"
             >
               {showChangeLog ? 'ซ่อน' : 'ดู'}การเปลี่ยนแปลงทั้งหมด
             </button>
@@ -101,25 +101,25 @@ export default function Home() {
           {/* Change Log Details */}
           {showChangeLog && (
             <div className="mt-4 bg-white/10 rounded-lg p-4 space-y-4">
-              <h3 className="text-white font-semibold text-lg mb-3">ประวัติการเปลี่ยนแปลงทั้งหมด</h3>
+              <h3 className="text-white noto-sans-thai-semibold text-lg mb-3">ประวัติการเปลี่ยนแปลงทั้งหมด</h3>
               {changeLog.map((log, index) => (
                 <div key={index} className="bg-white/10 rounded-lg p-4 border border-white/20">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-white font-medium">{log.announcement}</h4>
-                    <span className="text-white/70 text-sm">{log.date}</span>
+                    <h4 className="text-white noto-sans-thai-medium">{log.announcement}</h4>
+                    <span className="text-white/70 text-sm noto-sans-thai-regular">{log.date}</span>
                   </div>
                   <div className="space-y-2">
                     {log.changes.map((change, changeIndex) => (
                       <div key={changeIndex} className="bg-white/5 rounded p-3">
-                        <p className="text-white/90 font-medium mb-1">{change.field}</p>
+                        <p className="text-white/90 noto-sans-thai-medium mb-1">{change.field}</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                           <div>
-                            <span className="text-red-300 font-medium">จาก: </span>
-                            <span className="text-white/80">{change.from}</span>
+                            <span className="text-red-300 noto-sans-thai-medium">จาก: </span>
+                            <span className="text-white/80 noto-sans-thai-regular">{change.from}</span>
                           </div>
                           <div>
-                            <span className="text-green-300 font-medium">เป็น: </span>
-                            <span className="text-white/80">{change.to}</span>
+                            <span className="text-green-300 noto-sans-thai-medium">เป็น: </span>
+                            <span className="text-white/80 noto-sans-thai-regular">{change.to}</span>
                           </div>
                         </div>
                       </div>
@@ -156,7 +156,7 @@ export default function Home() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="ค้นหาเอกสาร นโยบาย หรือถามคำถาม..."
-                className="w-full pl-12 pr-32 py-5 rounded-2xl bg-white/95 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-white/50 text-lg shadow-2xl"
+                className="w-full pl-12 pr-32 py-5 rounded-2xl bg-white/95 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-white/50 text-lg shadow-2xl noto-sans-thai-regular"
               />
               <button
                 type="submit"
