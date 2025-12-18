@@ -2,18 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 17, 24, 39;
-  --background-end-rgb: 0, 0, 0;
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    135deg,
+    #db2777 0%,      /* Hot Pink */
+    #a855f7 35%,     /* Purple */
+    #6366f1 60%,     /* Indigo */
+    #1e40af 100%     /* Navy Blue */
+  );
+  background-attachment: fixed;
+  color: white;
 }
