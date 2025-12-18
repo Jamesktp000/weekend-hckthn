@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { changeLog, ChangeLogEntry } from '@/data/mockData';
+import { useRouter } from 'next/navigation';
+import { changeLog } from '@/data/mockData';
 
 export default function AnnouncementBar() {
-  const [showChangeLog, setShowChangeLog] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="bg-white/18 backdrop-blur-md border-b border-white/25 shadow-sm">
@@ -26,44 +26,14 @@ export default function AnnouncementBar() {
             </div>
           </div>
           <button 
-            onClick={() => setShowChangeLog(!showChangeLog)}
+            onClick={() => router.push('/changelog')}
             className="bg-gradient-to-r from-white/20 to-white/15 hover:from-white/30 hover:to-white/25 text-white px-6 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300 border border-white/20 hover:border-white/40"
           >
-            {showChangeLog ? 'ซ่อน' : 'ดู'}การเปลี่ยนแปลงทั้งหมด
+            ดูการเปลี่ยนแปลงทั้งหมด
           </button>
         </div>
 
-        {/* Change Log Details */}
-        {showChangeLog && (
-          <div className="mt-4 bg-white/10 rounded-lg p-4 space-y-4">
-            <h3 className="text-white noto-sans-thai-semibold text-lg mb-3">ประวัติการเปลี่ยนแปลงทั้งหมด</h3>
-            {changeLog.map((log: ChangeLogEntry, index: number) => (
-              <div key={index} className="bg-white/10 rounded-lg p-4 border border-white/20">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-white noto-sans-thai-medium">{log.announcement}</h4>
-                  <span className="text-white/70 text-sm noto-sans-thai-regular">{log.date}</span>
-                </div>
-                <div className="space-y-2">
-                  {log.changes.map((change: { field: string; from: string; to: string }, changeIndex: number) => (
-                    <div key={changeIndex} className="bg-white/5 rounded p-3">
-                      <p className="text-white/90 noto-sans-thai-medium mb-1">{change.field}</p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                        <div>
-                          <span className="text-red-300 noto-sans-thai-medium">จาก: </span>
-                          <span className="text-white/80 noto-sans-thai-regular">{change.from}</span>
-                        </div>
-                        <div>
-                          <span className="text-green-300 noto-sans-thai-medium">เป็น: </span>
-                          <span className="text-white/80 noto-sans-thai-regular">{change.to}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+
       </div>
     </div>
   );

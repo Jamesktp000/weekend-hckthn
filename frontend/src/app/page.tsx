@@ -18,8 +18,8 @@ export default function Home() {
         {/* Main Content */}
         <div className="space-y-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl noto-sans-thai-bold text-white mb-4">เลือกสาขา</h2>
-            <p className="text-lg text-white/80 noto-sans-thai-regular">เลือกสาขาที่คุณสนใจเพื่อเริ่มต้นการค้นหา</p>
+            <h2 className="text-4xl noto-sans-thai-bold text-white mb-4">เลือกหมวดหมู่</h2>
+            <p className="text-lg text-white/80 noto-sans-thai-regular">เลือกหมวดหมู่ที่คุณสนใจเพื่อเริ่มต้นการค้นหาข้อมูล</p>
           </div>
 
           <FeaturesSection />
