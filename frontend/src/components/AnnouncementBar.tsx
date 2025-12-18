@@ -1,0 +1,68 @@
+'use client';
+
+import { useState } from 'react';
+import { changeLog, ChangeLogEntry } from '@/data/mockData';
+
+export default function AnnouncementBar() {
+  const [showChangeLog, setShowChangeLog] = useState(false);
+
+  return (
+    <div className="bg-white/15 backdrop-blur-sm border-b border-white/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <svg className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            <div>
+              <p className="text-white noto-sans-thai-medium">
+                อัปเดตล่าสุด: {changeLog[0].date} - {changeLog[0].announcement}
+              </p>
+              <p className="text-white/80 text-sm noto-sans-thai-regular">
+                มีการเปลี่ยนแปลง {changeLog[0].changes.length} รายการในนโยบายและฟีเจอร์ของระบบ
+              </p>
+            </div>
+          </div>
+          <button 
+            onClick={() => setShowChangeLog(!showChangeLog)}
+            className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm noto-sans-thai-medium transition"
+          >
+            {showChangeLog ? 'ซ่อน' : 'ดู'}การเปลี่ยนแปลงทั้งหมด
+          </button>
+        </div>
+
+        {/* Change Log Details */}
+        {showChangeLog && (
+          <div className="mt-4 bg-white/10 rounded-lg p-4 space-y-4">
+            <h3 className="text-white noto-sans-thai-semibold text-lg mb-3">ประวัติการเปลี่ยนแปลงทั้งหมด</h3>
+            {changeLog.map((log: ChangeLogEntry, index: number) => (
+              <div key={index} className="bg-white/10 rounded-lg p-4 border border-white/20">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-white noto-sans-thai-medium">{log.announcement}</h4>
+                  <span className="text-white/70 text-sm noto-sans-thai-regular">{log.date}</span>
+                </div>
+                <div className="space-y-2">
+                  {log.changes.map((change: { field: string; from: string; to: string }, changeIndex: number) => (
+                    <div key={changeIndex} className="bg-white/5 rounded p-3">
+                      <p className="text-white/90 noto-sans-thai-medium mb-1">{change.field}</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                        <div>
+                          <span className="text-red-300 noto-sans-thai-medium">จาก: </span>
+                          <span className="text-white/80 noto-sans-thai-regular">{change.from}</span>
+                        </div>
+                        <div>
+                          <span className="text-green-300 noto-sans-thai-medium">เป็น: </span>
+                          <span className="text-white/80 noto-sans-thai-regular">{change.to}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
