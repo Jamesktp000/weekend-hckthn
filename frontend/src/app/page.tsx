@@ -6,21 +6,21 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showChangeLog, setShowChangeLog] = useState(false);
 
-  // Sample change log data - you can replace this with real data from your backend
+  // ข้อมูลตัวอย่างการเปลี่ยนแปลง - คุณสามารถแทนที่ด้วยข้อมูลจริงจากแบ็กเอนด์ของคุณ
   const changeLog = [
     {
-      date: '2024-01-15',
-      announcement: 'Policy Update #2024-001',
+      date: '15 มกราคม 2567',
+      announcement: 'การอัปเดตนโยบาย #2024-001',
       changes: [
-        { field: 'Privacy Policy', from: 'Data retained for 90 days', to: 'Data retained for 180 days' },
-        { field: 'Terms of Service', from: 'Section 4.2 - User Responsibilities', to: 'Section 4.2 - Enhanced User Responsibilities with new guidelines' }
+        { field: 'นโยบายความเป็นส่วนตัว', from: 'เก็บข้อมูลเป็นเวลา 90 วัน', to: 'เก็บข้อมูลเป็นเวลา 180 วัน' },
+        { field: 'ข้อกำหนดการใช้งาน', from: 'มาตรา 4.2 - ความรับผิดชอบของผู้ใช้', to: 'มาตรา 4.2 - ความรับผิดชอบของผู้ใช้ที่เพิ่มเติมพร้อมแนวทางใหม่' }
       ]
     },
     {
-      date: '2024-01-10',
-      announcement: 'System Update #2024-002',
+      date: '10 มกราคม 2567',
+      announcement: 'การอัปเดตระบบ #2024-002',
       changes: [
-        { field: 'Search Algorithm', from: 'Basic keyword matching', to: 'AI-powered semantic search with typo tolerance' }
+        { field: 'อัลกอริทึมการค้นหา', from: 'การจับคู่คำหลักพื้นฐาน', to: 'การค้นหาความหมายด้วย AI ที่ทนต่อการพิมพ์ผิด' }
       ]
     }
   ];
