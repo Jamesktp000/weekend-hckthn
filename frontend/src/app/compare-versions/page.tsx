@@ -2,18 +2,31 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import AnnouncementBar from '@/components/AnnouncementBar';
 import SearchBar from '@/components/SearchBar';
-import { getDocumentById, DocumentChangeLog } from '@/data/mockData';
+import { getDocumentById } from '@/data/mockData';
 
 function CompareContent() {
   const searchParams = useSearchParams();
   const docId = searchParams.get('doc');
   const topicId = searchParams.get('topic');
   const subtopicId = searchParams.get('subtopic');
-  const [selectedVersions, setSelectedVersions] = useState<[number, number]>([0, 1]);
+  const v1Param = searchParams.get('v1');
+  const v2Param = searchParams.get('v2');
+  
+  // Use URL parameters if available, otherwise default to [0, 1]
+  const initialV1 = v1Param ? parseInt(v1Param) : 0;
+  const initialV2 = v2Param ? parseInt(v2Param) : 1;
+  const [selectedVersions, setSelectedVersions] = useState<[number, number]>([initialV1, initialV2]);
+
+  // Update selected versions when URL parameters change
+  useEffect(() => {
+    if (v1Param && v2Param) {
+      setSelectedVersions([parseInt(v1Param), parseInt(v2Param)]);
+    }
+  }, [v1Param, v2Param]);
 
   if (!docId || !topicId || !subtopicId) {
     return (
@@ -43,7 +56,7 @@ function CompareContent() {
   const compareVersion = document.versions[selectedVersions[1]];
 
   // Get changelog between selected versions
-  const changesLog = document.changelog?.filter((log, index) => 
+  const changesLog = document.changelog?.filter((_log, index) => 
     index >= selectedVersions[0] && index < selectedVersions[1]
   ) || [];
 

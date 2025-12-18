@@ -69,10 +69,10 @@ export const topics: Topic[] = [
         documents: [
           { 
             id: 'doc1', 
-            title: 'ประกันภัยรถยนต์ชั้น 1',
+            title: 'การขายประกันชั้น 1',
             documentPath: '/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-2.pdf',
             documentType: 'pdf', 
-            preview: 'ความคุ้มครองแบบเต็มรูปแบบ รวมถึงความเสียหายต่อรถยนต์ของคุณเอง...', 
+            preview: 'คู่มือการขายประกันภัยรถยนต์ชั้น 1 ฉบับล่าสุด เวอร์ชัน 3.0', 
             lastUpdated: '15 ธ.ค. 2567',
             fullContent: `
 # ประกันภัยรถยนต์ชั้น 1
@@ -146,25 +146,19 @@ export const topics: Topic[] = [
                 version: '3.0',
                 date: '15 ธ.ค. 2567',
                 author: 'ฝ่ายผลิตภัณฑ์',
-                documentUrl: '/documents/car-insurance-v3.pdf'
-              },
-              {
-                version: '2.1',
-                date: '1 ธ.ค. 2567',
-                author: 'ฝ่ายผลิตภัณฑ์',
-                documentUrl: '/documents/car-insurance-v2.1.pdf'
+                documentUrl: '/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-2.pdf'
               },
               {
                 version: '2.0',
-                date: '15 พ.ย. 2567',
+                date: '1 ธ.ค. 2567',
                 author: 'ฝ่ายผลิตภัณฑ์',
-                documentUrl: '/documents/car-insurance-v2.pdf'
+                documentUrl: '/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-1.pdf'
               },
               {
                 version: '1.0',
                 date: '1 ต.ค. 2567',
                 author: 'ฝ่ายผลิตภัณฑ์',
-                documentUrl: '/documents/car-insurance-v1.pdf'
+                documentUrl: '/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1.pdf'
               }
             ],
             changelog: [
@@ -174,63 +168,45 @@ export const topics: Topic[] = [
                 changes: [
                   {
                     type: 'modified',
-                    field: 'ระยะเวลาคุ้มครอง',
-                    description: 'ปรับเพิ่มระยะเวลาคุ้มครอง',
-                    before: '365 วัน',
-                    after: '400 วัน'
-                  },
-                  {
-                    type: 'modified',
-                    field: 'ค่าเบี้ยประกันขั้นต่ำ',
-                    description: 'ลดค่าเบี้ยประกันภัยขั้นต่ำ',
-                    before: '5,000 บาท',
-                    after: '4,500 บาท'
+                    field: 'เนื้อหาหน้า 5-7',
+                    description: 'ปรับปรุงตารางเปรียบเทียบแผนประกัน',
+                    before: 'ตารางแบบเก่า 3 คอลัมน์',
+                    after: 'ตารางแบบใหม่ 5 คอลัมน์พร้อมไอคอน'
                   },
                   {
                     type: 'added',
-                    field: 'ความคุ้มครองน้ำท่วม',
-                    description: 'เพิ่มความคุ้มครองน้ำท่วมแบบไม่มีค่าใช้จ่ายเพิ่ม'
+                    field: 'หน้า 12',
+                    description: 'เพิ่มส่วนคำถามที่พบบ่อย (FAQ)'
+                  },
+                  {
+                    type: 'modified',
+                    field: 'ตัวเลขค่าเบี้ย',
+                    description: 'อัปเดตอัตราค่าเบี้ยประกันภัยล่าสุด',
+                    before: 'เริ่มต้น 5,000 บาท',
+                    after: 'เริ่มต้น 4,500 บาท'
                   }
                 ]
               },
               {
                 date: '1 ธ.ค. 2567',
-                version: '2.1',
-                changes: [
-                  {
-                    type: 'modified',
-                    field: 'ขั้นตอนการเคลม',
-                    description: 'ปรับปรุงขั้นตอนการเคลมให้ง่ายขึ้น',
-                    before: 'ต้องส่งเอกสารด้วยตนเอง',
-                    after: 'สามารถส่งเอกสารออนไลน์ได้'
-                  },
-                  {
-                    type: 'added',
-                    field: 'Line Official',
-                    description: 'เพิ่มช่องทางการติดต่อผ่าน Line'
-                  }
-                ]
-              },
-              {
-                date: '15 พ.ย. 2567',
                 version: '2.0',
                 changes: [
                   {
                     type: 'modified',
-                    field: 'อายุรถยนต์',
-                    description: 'ขยายอายุรถยนต์ที่รับประกัน',
+                    field: 'หน้า 3',
+                    description: 'แก้ไขข้อความเงื่อนไขอายุรถ',
                     before: 'รถอายุไม่เกิน 7 ปี',
                     after: 'รถอายุไม่เกิน 10 ปี'
                   },
                   {
                     type: 'added',
-                    field: 'อู่ซ่อม',
-                    description: 'เพิ่มเครือข่ายอู่ซ่อมทั่วประเทศ 200 แห่ง'
+                    field: 'หน้า 8-9',
+                    description: 'เพิ่มรายชื่ออู่ซ่อมที่ให้บริการ 200 แห่ง'
                   },
                   {
                     type: 'removed',
-                    field: 'ค่าธรรมเนียมแรกเข้า',
-                    description: 'ยกเลิกค่าธรรมเนียมแรกเข้า 500 บาท'
+                    field: 'หน้า 4',
+                    description: 'ลบข้อความค่าธรรมเนียมแรกเข้า 500 บาท'
                   }
                 ]
               },
@@ -241,7 +217,7 @@ export const topics: Topic[] = [
                   {
                     type: 'added',
                     field: 'เอกสารฉบับแรก',
-                    description: 'สร้างเอกสารประกันภัยรถยนต์ชั้น 1 ฉบับแรก'
+                    description: 'สร้างคู่มือการขายประกันภัยรถยนต์ชั้น 1 ฉบับแรก'
                   }
                 ]
               }

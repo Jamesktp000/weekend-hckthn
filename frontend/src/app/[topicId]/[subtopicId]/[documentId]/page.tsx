@@ -126,49 +126,65 @@ export default function DocumentPage({
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 mt-6">
               <h3 className="text-2xl noto-sans-thai-semibold text-white mb-6">ประวัติการเปลี่ยนแปลง</h3>
               <div className="space-y-4">
-                {document.changelog.map((log, index) => (
-                  <div key={index} className="bg-white/5 rounded-xl p-6 border border-white/10">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <span className="bg-pink-500/30 text-pink-200 px-3 py-1 rounded-full text-sm noto-sans-thai-medium">
-                          Version {log.version}
-                        </span>
-                        <span className="text-white/70 noto-sans-thai-regular">{log.date}</span>
+                {document.changelog.map((log, index) => {
+                  // Find the version index for comparison
+                  const currentVersionIndex = document.versions?.findIndex(v => v.version === log.version) ?? 0;
+                  const compareVersionIndex = Math.min(currentVersionIndex + 1, (document.versions?.length ?? 1) - 1);
+                  
+                  return (
+                    <Link
+                      key={index}
+                      href={`/compare-versions?doc=${document.id}&topic=${params.topicId}&subtopic=${params.subtopicId}&v1=${currentVersionIndex}&v2=${compareVersionIndex}`}
+                      className="block bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 hover:border-pink-500/50 transition-all cursor-pointer group"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <span className="bg-pink-500/30 text-pink-200 px-3 py-1 rounded-full text-sm noto-sans-thai-medium">
+                            Version {log.version}
+                          </span>
+                          <span className="text-white/70 noto-sans-thai-regular">{log.date}</span>
+                        </div>
+                        <div className="flex items-center space-x-2 text-pink-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <span className="text-sm noto-sans-thai-medium">ดูการเปรียบเทียบ</span>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                        </div>
                       </div>
-                    </div>
-                    <div className="space-y-3">
-                      {log.changes.map((change, changeIndex) => (
-                        <div key={changeIndex} className="bg-white/5 rounded-lg p-4">
-                          <div className="flex items-start space-x-3">
-                            <div className={`mt-1 px-2 py-1 rounded text-xs noto-sans-thai-medium ${
-                              change.type === 'added' ? 'bg-green-500/20 text-green-300' :
-                              change.type === 'modified' ? 'bg-blue-500/20 text-blue-300' :
-                              'bg-red-500/20 text-red-300'
-                            }`}>
-                              {change.type === 'added' ? 'เพิ่ม' : change.type === 'modified' ? 'แก้ไข' : 'ลบ'}
-                            </div>
-                            <div className="flex-1">
-                              <p className="text-white noto-sans-thai-semibold mb-1">{change.field}</p>
-                              <p className="text-white/80 noto-sans-thai-regular text-sm mb-2">{change.description}</p>
-                              {change.before && change.after && (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                                  <div className="bg-red-500/10 rounded p-2 border border-red-500/20">
-                                    <span className="text-red-300 text-xs noto-sans-thai-medium">ก่อน: </span>
-                                    <span className="text-white/70 text-sm noto-sans-thai-regular">{change.before}</span>
+                      <div className="space-y-3">
+                        {log.changes.map((change, changeIndex) => (
+                          <div key={changeIndex} className="bg-white/5 rounded-lg p-4">
+                            <div className="flex items-start space-x-3">
+                              <div className={`mt-1 px-2 py-1 rounded text-xs noto-sans-thai-medium ${
+                                change.type === 'added' ? 'bg-green-500/20 text-green-300' :
+                                change.type === 'modified' ? 'bg-blue-500/20 text-blue-300' :
+                                'bg-red-500/20 text-red-300'
+                              }`}>
+                                {change.type === 'added' ? 'เพิ่ม' : change.type === 'modified' ? 'แก้ไข' : 'ลบ'}
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-white noto-sans-thai-semibold mb-1">{change.field}</p>
+                                <p className="text-white/80 noto-sans-thai-regular text-sm mb-2">{change.description}</p>
+                                {change.before && change.after && (
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                                    <div className="bg-red-500/10 rounded p-2 border border-red-500/20">
+                                      <span className="text-red-300 text-xs noto-sans-thai-medium">ก่อน: </span>
+                                      <span className="text-white/70 text-sm noto-sans-thai-regular">{change.before}</span>
+                                    </div>
+                                    <div className="bg-green-500/10 rounded p-2 border border-green-500/20">
+                                      <span className="text-green-300 text-xs noto-sans-thai-medium">หลัง: </span>
+                                      <span className="text-white/70 text-sm noto-sans-thai-regular">{change.after}</span>
+                                    </div>
                                   </div>
-                                  <div className="bg-green-500/10 rounded p-2 border border-green-500/20">
-                                    <span className="text-green-300 text-xs noto-sans-thai-medium">หลัง: </span>
-                                    <span className="text-white/70 text-sm noto-sans-thai-regular">{change.after}</span>
-                                  </div>
-                                </div>
-                              )}
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                        ))}
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           )}
