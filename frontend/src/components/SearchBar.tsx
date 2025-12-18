@@ -261,8 +261,8 @@ export default function SearchBar() {
 
       {/* Search Results */}
       {searchResults.length > 0 && !isLoading && (
-        <div className="mt-12 max-w-6xl mx-auto">
-          <div className="mb-6 text-left">
+        <div className="mt-12 max-w-6xl mx-auto text-left">
+          <div className="mb-6">
             <h2 className="text-2xl text-white noto-sans-thai-bold mb-2">
               ผลการค้นหา ({searchResults.length} รายการ)
             </h2>
@@ -299,12 +299,12 @@ export default function SearchBar() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold text-gray-800 noto-sans-thai-bold group-hover:text-purple-600 transition-colors line-clamp-2 mb-3">
+                <h3 className="text-lg font-semibold text-gray-800 noto-sans-thai-bold group-hover:text-purple-600 transition-colors line-clamp-2 mb-3 text-left">
                   {highlightText(result.title, searchQuery)}
                 </h3>
                 
                 {/* Description */}
-                <p className="text-gray-600 noto-sans-thai-regular text-sm mb-4 line-clamp-3">
+                <p className="text-gray-600 noto-sans-thai-regular text-sm mb-4 line-clamp-3 text-left">
                   {highlightText(result.description, searchQuery)}
                 </p>
                 
