@@ -102,7 +102,7 @@ export const topics: Topic[] = [
   {
     id: 'product',
     name: 'ผลิตภัณฑ์',
-    icon: '🚗',
+    icon: '',
     subtopics: [
       {
         id: 'car-insurance',
@@ -302,7 +302,7 @@ export const topics: Topic[] = [
   {
     id: 'insurance',
     name: 'ประกัน',
-    icon: '🛡️',
+    icon: '',
     subtopics: [
       {
         id: 'claim-process',
@@ -319,7 +319,7 @@ const remainingTopics: Topic[] = [
   {
     id: 'kpi',
     name: 'KPI & Incentive',
-    icon: '📈',
+    icon: '',
     subtopics: [
       {
         id: 'sales-kpi',
@@ -356,7 +356,7 @@ const remainingTopics: Topic[] = [
   {
     id: 'campaign',
     name: 'Campaign',
-    icon: '🏆',
+    icon: '',
     subtopics: [
       {
         id: 'promo',
@@ -393,7 +393,7 @@ const remainingTopics: Topic[] = [
   {
     id: 'hr',
     name: 'HR',
-    icon: '👥',
+    icon: '',
     subtopics: [
       {
         id: 'leave',
@@ -407,7 +407,7 @@ const remainingTopics: Topic[] = [
   {
     id: 'operation',
     name: 'Operation',
-    icon: '📋',
+    icon: '',
     subtopics: [
       {
         id: 'daily-ops',
@@ -444,7 +444,7 @@ const remainingTopics: Topic[] = [
   {
     id: 'marketing',
     name: 'การตลาด',
-    icon: '📢',
+    icon: '',
     subtopics: [
       {
         id: 'social-media',
@@ -465,7 +465,7 @@ const remainingTopics: Topic[] = [
   {
     id: 'accounting',
     name: 'บัญชี',
-    icon: '💰',
+    icon: '',
     subtopics: [
       {
         id: 'expense',
@@ -479,7 +479,7 @@ const remainingTopics: Topic[] = [
   {
     id: 'knowledge',
     name: 'สื่อความรู้',
-    icon: '📚',
+    icon: '',
     subtopics: [
       {
         id: 'training',
@@ -493,7 +493,7 @@ const remainingTopics: Topic[] = [
   {
     id: 'faq',
     name: 'รู้เรื่องไม่?',
-    icon: '❓',
+    icon: '',
     subtopics: [
       {
         id: 'common-questions',
