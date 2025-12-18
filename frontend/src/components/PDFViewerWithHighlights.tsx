@@ -13,19 +13,23 @@ interface PDFViewerWithHighlightsProps {
   keywords?: string[];
   title?: string;
   highlightColor?: 'green' | 'red' | 'blue';
+  syncedPage?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export default function PDFViewerWithHighlights({
   pdfUrl,
   keywords = [],
   title,
-  highlightColor = 'green'
+  highlightColor = 'green',
+  syncedPage,
+  onPageChange
 }: PDFViewerWithHighlightsProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [scale, setScale] = useState(1.5);
+  const [scale, setScale] = useState(0.5);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const pdfDocRef = useRef<any>(null);
@@ -169,6 +173,13 @@ export default function PDFViewerWithHighlights({
     };
   }, [pdfUrl]);
 
+  // Sync page from parent component
+  useEffect(() => {
+    if (syncedPage && syncedPage !== currentPage && syncedPage <= totalPages) {
+      setCurrentPage(syncedPage);
+    }
+  }, [syncedPage, totalPages]);
+
   useEffect(() => {
     let isMounted = true;
 
@@ -192,13 +203,21 @@ export default function PDFViewerWithHighlights({
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      if (onPageChange) {
+        onPageChange(newPage);
+      }
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      if (onPageChange) {
+        onPageChange(newPage);
+      }
     }
   };
 

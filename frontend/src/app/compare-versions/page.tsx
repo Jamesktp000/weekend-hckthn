@@ -26,6 +26,8 @@ function CompareContent() {
   const [isComparing, setIsComparing] = useState(false);
   const [comparisonError, setComparisonError] = useState<string | null>(null);
   const [showComparison, setShowComparison] = useState(false);
+  const [syncedPage, setSyncedPage] = useState(1);
+  const [showDetailedDiff, setShowDetailedDiff] = useState(false);
 
   // Update selected versions when URL parameters change
   useEffect(() => {
@@ -274,8 +276,31 @@ function CompareContent() {
 
             {/* Page-by-page differences */}
             <div className="space-y-4">
-              <h4 className="text-xl noto-sans-thai-semibold text-white mb-4">รายละเอียดการเปลี่ยนแปลงแต่ละหน้า</h4>
-              {comparisonResult.pages.map((page) => (
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-xl noto-sans-thai-semibold text-white">รายละเอียดการเปลี่ยนแปลงแต่ละหน้า</h4>
+                <button
+                  onClick={() => setShowDetailedDiff(!showDetailedDiff)}
+                  className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg noto-sans-thai-medium transition"
+                >
+                  {showDetailedDiff ? (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                      </svg>
+                      <span>ซ่อนรายละเอียด</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                      <span>แสดงรายละเอียด</span>
+                    </>
+                  )}
+                </button>
+              </div>
+              
+              {showDetailedDiff && comparisonResult.pages.map((page) => (
                 <div key={page.pageNumber} className="bg-white/5 rounded-xl p-6 border border-white/10">
                   <div className="flex items-center space-x-3 mb-4">
                     <span className="bg-purple-500/30 text-purple-200 px-3 py-1 rounded-full text-sm noto-sans-thai-medium">
@@ -370,6 +395,8 @@ function CompareContent() {
                     )}
                     title={`Version ${currentVersion.version} (เพิ่ม)`}
                     highlightColor="green"
+                    syncedPage={syncedPage}
+                    onPageChange={setSyncedPage}
                   />
                 ) : (
                   <iframe
@@ -419,6 +446,8 @@ function CompareContent() {
                     )}
                     title={`Version ${compareVersion.version} (ลบ)`}
                     highlightColor="red"
+                    syncedPage={syncedPage}
+                    onPageChange={setSyncedPage}
                   />
                 ) : (
                   <iframe
