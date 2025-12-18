@@ -187,19 +187,19 @@ export const topics: Topic[] = [
                 version: '3.0',
                 date: '15 ธ.ค. 2567',
                 author: 'ฝ่ายผลิตภัณฑ์',
-                documentUrl: '/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-2.pdf'
+                documentUrl: '/documents/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-2.pdf'
               },
               {
                 version: '2.0',
                 date: '1 ธ.ค. 2567',
                 author: 'ฝ่ายผลิตภัณฑ์',
-                documentUrl: '/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-1.pdf'
+                documentUrl: '/documents/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1-1.pdf'
               },
               {
                 version: '1.0',
                 date: '1 ต.ค. 2567',
                 author: 'ฝ่ายผลิตภัณฑ์',
-                documentUrl: '/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1.pdf'
+                documentUrl: '/documents/2025/03/สื่อความสาขา-_-การขายประกันชั้น-1.pdf'
               }
             ],
             changelog: [
