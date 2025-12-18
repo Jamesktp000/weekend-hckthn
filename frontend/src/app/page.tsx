@@ -22,11 +22,22 @@ interface Document {
   lastUpdated: string;
 }
 
+interface ChangeLogEntry {
+  date: string;
+  announcement: string;
+  changes: {
+    field: string;
+    from: string;
+    to: string;
+  }[];
+}
+
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [selectedSubtopic, setSelectedSubtopic] = useState<Subtopic | null>(null);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+  const [showChangeLog, setShowChangeLog] = useState(false);
 
   // Mock data ตามรูป
   const topics: Topic[] = [
@@ -180,6 +191,36 @@ export default function Home() {
     }
   ];
 
+  const changeLog: ChangeLogEntry[] = [
+    {
+      date: '18 ธ.ค. 2567',
+      announcement: 'อัปเดตนโยบายประกันรถยนต์ใหม่',
+      changes: [
+        {
+          field: 'ระยะเวลาคุ้มครอง',
+          from: '365 วัน',
+          to: '400 วัน'
+        },
+        {
+          field: 'ค่าเบี้ยประกันขั้นต่ำ',
+          from: '5,000 บาท',
+          to: '4,500 บาท'
+        }
+      ]
+    },
+    {
+      date: '15 ธ.ค. 2567',
+      announcement: 'เพิ่มฟีเจอร์ใหม่ในระบบ',
+      changes: [
+        {
+          field: 'ระบบค้นหา',
+          from: 'ค้นหาแบบธรรมดา',
+          to: 'ค้นหาแบบอัจฉริยะ AI'
+        }
+      ]
+    }
+  ];
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Searching for:', searchQuery);
@@ -273,14 +314,14 @@ export default function Home() {
           {showChangeLog && (
             <div className="mt-4 bg-white/10 rounded-lg p-4 space-y-4">
               <h3 className="text-white noto-sans-thai-semibold text-lg mb-3">ประวัติการเปลี่ยนแปลงทั้งหมด</h3>
-              {changeLog.map((log, index) => (
+              {changeLog.map((log: ChangeLogEntry, index: number) => (
                 <div key={index} className="bg-white/10 rounded-lg p-4 border border-white/20">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-white noto-sans-thai-medium">{log.announcement}</h4>
                     <span className="text-white/70 text-sm noto-sans-thai-regular">{log.date}</span>
                   </div>
                   <div className="space-y-2">
-                    {log.changes.map((change, changeIndex) => (
+                    {log.changes.map((change: { field: string; from: string; to: string }, changeIndex: number) => (
                       <div key={changeIndex} className="bg-white/5 rounded p-3">
                         <p className="text-white/90 noto-sans-thai-medium mb-1">{change.field}</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
