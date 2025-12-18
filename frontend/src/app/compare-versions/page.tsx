@@ -8,6 +8,7 @@ import AnnouncementBar from '@/components/AnnouncementBar';
 import SearchBar from '@/components/SearchBar';
 import { getDocumentById } from '@/data/mockData';
 import { comparePDFs, generateChangeSummary, PDFComparisonResult } from '@/utils/pdfComparison';
+import PDFViewerWithHighlights from '@/components/PDFViewerWithHighlights';
 
 function CompareContent() {
   const searchParams = useSearchParams();
@@ -341,7 +342,7 @@ function CompareContent() {
           </div>
         )}
 
-        {/* Side by Side Comparison */}
+        {/* Side by Side Comparison with Highlights */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* New Version */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 overflow-hidden">
@@ -357,18 +358,31 @@ function CompareContent() {
               </div>
             </div>
             {currentVersion.documentUrl && (
-              <div className="p-4">
-                <iframe
-                  src={`${currentVersionUrl}#toolbar=1`}
-                  className="w-full rounded-lg"
-                  style={{ height: '600px' }}
-                  title={`Version ${currentVersion.version}`}
-                />
+              <div className="h-[700px]">
+                {comparisonResult && comparisonResult.pages.length > 0 ? (
+                  <PDFViewerWithHighlights
+                    pdfUrl={currentVersionUrl}
+                    keywords={comparisonResult.pages.flatMap(page => 
+                      page.differences
+                        .filter(d => d.type === 'added')
+                        .map(d => d.value.trim())
+                        .filter(v => v.length > 2)
+                    )}
+                    title={`Version ${currentVersion.version} (เพิ่ม)`}
+                    highlightColor="green"
+                  />
+                ) : (
+                  <iframe
+                    src={`${currentVersionUrl}#toolbar=1`}
+                    className="w-full h-full rounded-lg"
+                    title={`Version ${currentVersion.version}`}
+                  />
+                )}
                 <a
                   href={currentVersionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 flex items-center justify-center space-x-2 bg-green-500/20 hover:bg-green-500/30 text-green-200 px-4 py-2 rounded-lg noto-sans-thai-medium transition"
+                  className="mt-4 mx-4 flex items-center justify-center space-x-2 bg-green-500/20 hover:bg-green-500/30 text-green-200 px-4 py-2 rounded-lg noto-sans-thai-medium transition"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -393,18 +407,31 @@ function CompareContent() {
               </div>
             </div>
             {compareVersion.documentUrl && (
-              <div className="p-4">
-                <iframe
-                  src={`${compareVersionUrl}#toolbar=1`}
-                  className="w-full rounded-lg"
-                  style={{ height: '600px' }}
-                  title={`Version ${compareVersion.version}`}
-                />
+              <div className="h-[700px]">
+                {comparisonResult && comparisonResult.pages.length > 0 ? (
+                  <PDFViewerWithHighlights
+                    pdfUrl={compareVersionUrl}
+                    keywords={comparisonResult.pages.flatMap(page => 
+                      page.differences
+                        .filter(d => d.type === 'removed')
+                        .map(d => d.value.trim())
+                        .filter(v => v.length > 2)
+                    )}
+                    title={`Version ${compareVersion.version} (ลบ)`}
+                    highlightColor="red"
+                  />
+                ) : (
+                  <iframe
+                    src={`${compareVersionUrl}#toolbar=1`}
+                    className="w-full h-full rounded-lg"
+                    title={`Version ${compareVersion.version}`}
+                  />
+                )}
                 <a
                   href={compareVersionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 flex items-center justify-center space-x-2 bg-red-500/20 hover:bg-red-500/30 text-red-200 px-4 py-2 rounded-lg noto-sans-thai-medium transition"
+                  className="mt-4 mx-4 flex items-center justify-center space-x-2 bg-red-500/20 hover:bg-red-500/30 text-red-200 px-4 py-2 rounded-lg noto-sans-thai-medium transition"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -416,65 +443,66 @@ function CompareContent() {
           </div>
         </div>
 
-        {/* Changes Highlight */}
-        {changesLog.length > 0 && (
+        {/* PDF Comparison Results - Alternative View */}
+        {!showComparison && comparisonResult && comparisonResult.pages.length > 0 && (
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-            <h3 className="text-2xl noto-sans-thai-semibold text-white mb-6">รายการการเปลี่ยนแปลง</h3>
-            <div className="space-y-4">
-              {changesLog.map((log, logIndex) => (
-                <div key={logIndex} className="bg-white/5 rounded-xl p-6 border border-white/10">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <span className="bg-blue-500/30 text-blue-200 px-3 py-1 rounded-full text-sm noto-sans-thai-medium">
-                        Version {log.version}
-                      </span>
-                      <span className="text-white/70 noto-sans-thai-regular">{log.date}</span>
-                    </div>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl noto-sans-thai-semibold text-white">ผลการเปรียบเทียบ PDF</h3>
+              <button
+                onClick={() => setShowComparison(true)}
+                className="text-pink-300 hover:text-pink-200 noto-sans-thai-regular text-sm"
+              >
+                ดูรายละเอียดเพิ่มเติม →
+              </button>
+            </div>
+            
+            {/* Summary Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-blue-500/20 rounded-xl p-4 border border-blue-500/30">
+                <div className="text-blue-200 text-sm noto-sans-thai-regular mb-1">หน้าที่เปลี่ยนแปลง</div>
+                <div className="text-white text-2xl noto-sans-thai-bold">
+                  {comparisonResult.summary.pagesWithChanges}/{comparisonResult.summary.totalPages}
+                </div>
+              </div>
+              <div className="bg-green-500/20 rounded-xl p-4 border border-green-500/30">
+                <div className="text-green-200 text-sm noto-sans-thai-regular mb-1">เพิ่ม</div>
+                <div className="text-white text-2xl noto-sans-thai-bold">{comparisonResult.summary.additions}</div>
+              </div>
+              <div className="bg-red-500/20 rounded-xl p-4 border border-red-500/30">
+                <div className="text-red-200 text-sm noto-sans-thai-regular mb-1">ลบ</div>
+                <div className="text-white text-2xl noto-sans-thai-bold">{comparisonResult.summary.deletions}</div>
+              </div>
+              <div className="bg-yellow-500/20 rounded-xl p-4 border border-yellow-500/30">
+                <div className="text-yellow-200 text-sm noto-sans-thai-regular mb-1">แก้ไข</div>
+                <div className="text-white text-2xl noto-sans-thai-bold">{comparisonResult.summary.modifications}</div>
+              </div>
+            </div>
+
+            {/* Quick Preview of Changes */}
+            <div className="space-y-3">
+              <h4 className="text-lg noto-sans-thai-semibold text-white mb-3">ตัวอย่างการเปลี่ยนแปลง</h4>
+              {comparisonResult.pages.slice(0, 3).map((page) => (
+                <div key={page.pageNumber} className="bg-white/5 rounded-lg p-4 border border-white/10">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="bg-purple-500/30 text-purple-200 px-3 py-1 rounded-full text-xs noto-sans-thai-medium">
+                      หน้า {page.pageNumber}
+                    </span>
+                    <span className="text-white/50 text-xs noto-sans-thai-regular">
+                      {page.differences.filter(d => d.type !== 'unchanged').length} จุดเปลี่ยนแปลง
+                    </span>
                   </div>
-                  <div className="space-y-3">
-                    {log.changes.map((change, changeIndex) => (
-                      <div 
-                        key={changeIndex} 
-                        className={`rounded-lg p-4 border ${
-                          change.type === 'added' ? 'bg-green-500/10 border-green-500/30' :
-                          change.type === 'modified' ? 'bg-blue-500/10 border-blue-500/30' :
-                          'bg-red-500/10 border-red-500/30'
-                        }`}
-                      >
-                        <div className="flex items-start space-x-3">
-                          <div className={`mt-1 px-2 py-1 rounded text-xs noto-sans-thai-medium ${
-                            change.type === 'added' ? 'bg-green-500/20 text-green-300' :
-                            change.type === 'modified' ? 'bg-blue-500/20 text-blue-300' :
-                            'bg-red-500/20 text-red-300'
-                          }`}>
-                            {change.type === 'added' ? '+ เพิ่ม' : change.type === 'modified' ? '~ แก้ไข' : '- ลบ'}
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-white noto-sans-thai-semibold mb-1">{change.field}</p>
-                            <p className="text-white/80 noto-sans-thai-regular text-sm mb-2">{change.description}</p>
-                            {change.before && change.after && (
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                                <div className="bg-red-500/10 rounded p-3 border border-red-500/20">
-                                  <div className="flex items-center space-x-2 mb-1">
-                                    <span className="text-red-300 text-xs noto-sans-thai-medium">- ก่อน:</span>
-                                  </div>
-                                  <span className="text-white/70 text-sm noto-sans-thai-regular">{change.before}</span>
-                                </div>
-                                <div className="bg-green-500/10 rounded p-3 border border-green-500/20">
-                                  <div className="flex items-center space-x-2 mb-1">
-                                    <span className="text-green-300 text-xs noto-sans-thai-medium">+ หลัง:</span>
-                                  </div>
-                                  <span className="text-white/70 text-sm noto-sans-thai-regular">{change.after}</span>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                  <div className="text-xs text-white/70 noto-sans-thai-regular">
+                    {page.addedItems.length > 0 && <span className="text-green-300">+{page.addedItems.length} เพิ่ม </span>}
+                    {page.removedItems.length > 0 && <span className="text-red-300">-{page.removedItems.length} ลบ </span>}
+                    {page.modifiedItems.length > 0 && <span className="text-blue-300">~{page.modifiedItems.length} แก้ไข</span>}
                   </div>
                 </div>
               ))}
+              {comparisonResult.pages.length > 3 && (
+                <p className="text-center text-white/50 text-sm noto-sans-thai-regular">
+                  และอีก {comparisonResult.pages.length - 3} หน้า...
+                </p>
+              )}
             </div>
           </div>
         )}
