@@ -117,7 +117,11 @@ export default function ChangelogPage() {
             <h3 className="text-2xl noto-sans-thai-semibold text-white mb-6">รายการการเปลี่ยนแปลง</h3>
             <div className="space-y-4">
               {filteredChangeLog.map((log: ChangeLogEntry, logIndex: number) => (
-                <div key={logIndex} className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <Link 
+                  href={`/compare-versions?doc=doc1&topic=product&subtopic=car-insurance&v1=0&v2=1`}
+                  key={logIndex} 
+                  className="bg-white/5 hover:bg-white/10 rounded-xl p-6 border border-white/10 cursor-pointer transition-all duration-300 block"
+                >
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-3">
                       <span className="bg-blue-500/30 text-blue-200 px-3 py-1 rounded-full text-sm noto-sans-thai-medium">
@@ -171,7 +175,7 @@ export default function ChangelogPage() {
                       </div>
                     ))}
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
