@@ -54,19 +54,19 @@ export default function Home() {
                 />
                 */}
               </div>
-              <span className="ml-3 text-white font-semibold text-lg">Your Brand</span>
+              <span className="ml-3 text-white font-semibold text-lg">แบรนด์ของคุณ</span>
             </div>
             
             {/* Navigation items */}
             <div className="flex items-center space-x-4">
               <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">
-                Home
+                หน้าหลัก
               </button>
               <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">
-                About
+                เกี่ยวกับเรา
               </button>
               <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">
-                Contact
+                ติดต่อเรา
               </button>
             </div>
           </div>
@@ -83,10 +83,10 @@ export default function Home() {
               </svg>
               <div>
                 <p className="text-white font-medium">
-                  Latest Update: {changeLog[0].date} - {changeLog[0].announcement}
+                  อัปเดตล่าสุด: {changeLog[0].date} - {changeLog[0].announcement}
                 </p>
                 <p className="text-white/80 text-sm">
-                  {changeLog[0].changes.length} change(s) made to system policies and features
+                  มีการเปลี่ยนแปลง {changeLog[0].changes.length} รายการในนโยบายและฟีเจอร์ของระบบ
                 </p>
               </div>
             </div>
@@ -94,14 +94,14 @@ export default function Home() {
               onClick={() => setShowChangeLog(!showChangeLog)}
               className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
             >
-              {showChangeLog ? 'Hide' : 'View'} All Changes
+              {showChangeLog ? 'ซ่อน' : 'ดู'}การเปลี่ยนแปลงทั้งหมด
             </button>
           </div>
 
           {/* Change Log Details */}
           {showChangeLog && (
             <div className="mt-4 bg-white/10 rounded-lg p-4 space-y-4">
-              <h3 className="text-white font-semibold text-lg mb-3">Complete Change History</h3>
+              <h3 className="text-white font-semibold text-lg mb-3">ประวัติการเปลี่ยนแปลงทั้งหมด</h3>
               {changeLog.map((log, index) => (
                 <div key={index} className="bg-white/10 rounded-lg p-4 border border-white/20">
                   <div className="flex items-center justify-between mb-2">
@@ -114,11 +114,11 @@ export default function Home() {
                         <p className="text-white/90 font-medium mb-1">{change.field}</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                           <div>
-                            <span className="text-red-300 font-medium">From: </span>
+                            <span className="text-red-300 font-medium">จาก: </span>
                             <span className="text-white/80">{change.from}</span>
                           </div>
                           <div>
-                            <span className="text-green-300 font-medium">To: </span>
+                            <span className="text-green-300 font-medium">เป็น: </span>
                             <span className="text-white/80">{change.to}</span>
                           </div>
                         </div>
@@ -137,10 +137,10 @@ export default function Home() {
         {/* Hero Section with Search */}
         <div className="text-center mb-12">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-            Find What You Need
+            ค้นหาสิ่งที่คุณต้องการ
           </h1>
           <p className="text-xl text-white/90 mb-8">
-            Intelligent search across all your documents, policies, and announcements
+            ค้นหาอัจฉริยะในเอกสาร นโยบาย และประกาศทั้งหมดของคุณ
           </p>
 
           {/* Advanced Search Bar */}
@@ -155,7 +155,7 @@ export default function Home() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for documents, policies, or ask a question..."
+                placeholder="ค้นหาเอกสาร นโยบาย หรือถามคำถาม..."
                 className="w-full pl-12 pr-32 py-5 rounded-2xl bg-white/95 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-white/50 text-lg shadow-2xl"
               />
               <button
