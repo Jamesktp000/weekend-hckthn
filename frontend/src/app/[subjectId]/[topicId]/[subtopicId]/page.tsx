@@ -6,12 +6,14 @@ import Navbar from '@/components/Navbar';
 import AnnouncementBar from '@/components/AnnouncementBar';
 import SearchBar from '@/components/SearchBar';
 import PDFPreview from '@/components/PDFPreview';
-import { getSubtopicById } from '@/data/mockData';
+import { getSubtopicById, getTopicById, mainSubjects } from '@/data/mockData';
 
-export default function SubtopicPage({ params }: { params: { topicId: string; subtopicId: string } }) {
+export default function SubtopicPage({ params }: { params: { subjectId: string; topicId: string; subtopicId: string } }) {
+  const subject = mainSubjects.find(s => s.id === params.subjectId);
+  const topic = getTopicById(params.topicId);
   const subtopic = getSubtopicById(params.topicId, params.subtopicId);
 
-  if (!subtopic) {
+  if (!subtopic || !topic || !subject) {
     notFound();
   }
 
@@ -31,8 +33,12 @@ export default function SubtopicPage({ params }: { params: { topicId: string; su
             หน้าหลัก
           </Link>
           <span>/</span>
-          <Link href={`/${params.topicId}`} className="hover:text-white transition">
-            {params.topicId}
+          <Link href={`/${params.subjectId}`} className="hover:text-white transition">
+            {subject.name}
+          </Link>
+          <span>/</span>
+          <Link href={`/${params.subjectId}/${params.topicId}`} className="hover:text-white transition">
+            {topic.name}
           </Link>
           <span>/</span>
           <span className="text-white">{subtopic.name}</span>
@@ -42,13 +48,13 @@ export default function SubtopicPage({ params }: { params: { topicId: string; su
         <div className="space-y-6">
           <div className="mb-6">
             <Link
-              href={`/${params.topicId}`}
+              href={`/${params.subjectId}/${params.topicId}`}
               className="text-white/80 hover:text-white mb-4 flex items-center space-x-2 noto-sans-thai-medium"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              <span>กลับไปหัวข้อย่อย</span>
+              <span>กลับไป{topic.name}</span>
             </Link>
             <h2 className="text-4xl noto-sans-thai-bold text-white">{subtopic.name}</h2>
           </div>
@@ -58,7 +64,7 @@ export default function SubtopicPage({ params }: { params: { topicId: string; su
               return (
                 <Link
                   key={doc.id}
-                  href={`/${params.topicId}/${params.subtopicId}/${doc.id}`}
+                  href={`/${params.subjectId}/${params.topicId}/${params.subtopicId}/${doc.id}`}
                   className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:bg-white/15 hover:border-pink-400 transition group"
                 >
                   {/* Document Preview */}
