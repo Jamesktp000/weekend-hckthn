@@ -39,15 +39,6 @@ export default function TopicPage({ params }: { params: { subjectId: string; top
         {/* Subtopics View */}
         <div className="space-y-6">
           <div className="mb-6">
-            <Link
-              href={`/${params.subjectId}`}
-              className="text-white/80 hover:text-white mb-4 flex items-center space-x-2 noto-sans-thai-medium"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              <span>กลับไป{subject.name}</span>
-            </Link>
             <h2 className="text-4xl noto-sans-thai-bold text-white flex items-center space-x-3">
               <span>{topic.icon}</span>
               <span>{topic.name}</span>

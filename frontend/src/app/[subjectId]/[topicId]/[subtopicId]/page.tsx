@@ -47,15 +47,6 @@ export default function SubtopicPage({ params }: { params: { subjectId: string; 
         {/* Document List View */}
         <div className="space-y-6">
           <div className="mb-6">
-            <Link
-              href={`/${params.subjectId}/${params.topicId}`}
-              className="text-white/80 hover:text-white mb-4 flex items-center space-x-2 noto-sans-thai-medium"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              <span>กลับไป{topic.name}</span>
-            </Link>
             <h2 className="text-4xl noto-sans-thai-bold text-white">{subtopic.name}</h2>
           </div>
 
