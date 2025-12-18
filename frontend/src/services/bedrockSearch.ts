@@ -1,6 +1,7 @@
 export interface SearchSource {
   fileName: string;
   fileLink: string;
+  summary: string;
   metadata: {
     'x-amz-bedrock-kb-source-file-mime-type': string;
     'x-amz-bedrock-kb-source-file-modality': string;

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { topics, getDocumentUrl, type Document } from '@/data/mockData';
 import { searchDocuments, SearchSource } from '@/services/bedrockSearch';
 import { matchSearchSourcesToDocuments, buildDocumentUrl, MatchedDocument } from '@/utils/documentMatcher';
+import { isS3Url, extractS3KeyFromUrl, getPresignedUrl, downloadS3File } from '@/services/s3Service';
 
 interface SearchResult {
   id: string;
@@ -113,6 +114,55 @@ export default function SearchBar() {
       lastUpdated: doc.lastUpdated,
       documentType: doc.documentType
     };
+  };
+
+  // Handle S3 file click
+  const handleS3FileClick = async (fileLink: string) => {
+    try {
+      const s3Key = extractS3KeyFromUrl(fileLink);
+      if (!s3Key) {
+        console.error('Could not extract S3 key from URL:', fileLink);
+        alert('ไม่สามารถเปิดไฟล์ได้');
+        return;
+      }
+
+      // Get presigned URL for secure access
+      const presignedUrl = await getPresignedUrl(s3Key);
+      
+      // Open in new tab
+      window.open(presignedUrl, '_blank');
+    } catch (error) {
+      console.error('Error opening S3 file:', error);
+      alert('เกิดข้อผิดพลาดในการเปิดไฟล์');
+    }
+  };
+
+  // Handle file download from S3
+  const handleS3FileDownload = async (fileLink: string, fileName: string) => {
+    try {
+      const s3Key = extractS3KeyFromUrl(fileLink);
+      if (!s3Key) {
+        console.error('Could not extract S3 key from URL:', fileLink);
+        alert('ไม่สามารถดาวน์โหลดไฟล์ได้');
+        return;
+      }
+
+      // Download file as blob
+      const blob = await downloadS3File(s3Key);
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Error downloading S3 file:', error);
+      alert('เกิดข้อผิดพลาดในการดาวน์โหลดไฟล์');
+    }
   };
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -307,22 +357,65 @@ export default function SearchBar() {
             <div className="mb-8">
               <h2 className="text-2xl noto-sans-thai-semibold text-white mb-4">เอกสารที่เกี่ยวข้อง</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {matchedResults.map((result, index) => (
-                  <Link
-                    key={index}
-                    href={buildDocumentUrl(result)}
-                    className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 hover:border-pink-500/50 transition group"
-                  >
-                    <div className="flex items-start justify-between">
-                      <h3 className="text-white noto-sans-thai-semibold line-clamp-2 group-hover:text-pink-200 transition flex-1">
-                        {result.document.title}
-                      </h3>
-                      <svg className="w-5 h-5 text-pink-300 opacity-0 group-hover:opacity-100 transition flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </div>
-                  </Link>
-                ))}
+                {matchedResults.map((result, index) => {
+                  const isS3File = isS3Url(result.source.fileLink);
+                  
+                  if (isS3File) {
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => handleS3FileClick(result.source.fileLink)}
+                        className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 hover:border-pink-500/50 transition group cursor-pointer"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <svg className="w-4 h-4 text-blue-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                              </svg>
+                              <span className="text-xs text-blue-200 noto-sans-thai-medium">S3 File</span>
+                            </div>
+                            <h3 className="text-white noto-sans-thai-semibold line-clamp-2 group-hover:text-pink-200 transition">
+                              {result.document.title}
+                            </h3>
+                          </div>
+                          <svg className="w-5 h-5 text-pink-300 opacity-0 group-hover:opacity-100 transition flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleS3FileDownload(result.source.fileLink, result.source.fileName);
+                          }}
+                          className="mt-4 w-full bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-sm noto-sans-thai-medium transition flex items-center justify-center gap-2"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                          </svg>
+                          ดาวน์โหลด
+                        </button>
+                      </div>
+                    );
+                  }
+                  
+                  return (
+                    <Link
+                      key={index}
+                      href={buildDocumentUrl(result)}
+                      className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 hover:border-pink-500/50 transition group"
+                    >
+                      <div className="flex items-start justify-between">
+                        <h3 className="text-white noto-sans-thai-semibold line-clamp-2 group-hover:text-pink-200 transition flex-1">
+                          {result.document.title}
+                        </h3>
+                        <svg className="w-5 h-5 text-pink-300 opacity-0 group-hover:opacity-100 transition flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -332,21 +425,65 @@ export default function SearchBar() {
             <div>
               <h2 className="text-2xl noto-sans-thai-semibold text-white mb-4">แหล่งข้อมูลอื่นๆ</h2>
               <div className="space-y-3">
-                {unmatchedSources.map((source, index) => (
-                  <div
-                    key={index}
-                    className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
-                  >
-                    <div className="flex items-start justify-between">
-                      <h3 className="text-white noto-sans-thai-semibold flex-1">
-                        {source.fileName}
-                      </h3>
-                      <span className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs noto-sans-thai-medium ml-4">
-                        ไม่มีในระบบ
-                      </span>
+                {unmatchedSources.map((source, index) => {
+                  const isS3File = isS3Url(source.fileLink);
+                  
+                  return (
+                    <div
+                      key={index}
+                      className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition group"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            {isS3File && (
+                              <>
+                                <svg className="w-4 h-4 text-blue-300" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                                </svg>
+                                <span className="text-xs text-blue-200 noto-sans-thai-medium">S3 File</span>
+                              </>
+                            )}
+                          </div>
+                          <h3 className="text-white noto-sans-thai-semibold">
+                            {source.fileName}
+                          </h3>
+                          {source.summary && (
+                            <p className="text-white/70 text-sm mt-2 noto-sans-thai-regular">
+                              {source.summary}
+                            </p>
+                          )}
+                        </div>
+                        <span className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded text-xs noto-sans-thai-medium ml-4 h-fit">
+                          ไม่มีในระบบ
+                        </span>
+                      </div>
+                      
+                      {isS3File && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleS3FileClick(source.fileLink)}
+                            className="flex-1 bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-sm noto-sans-thai-medium transition flex items-center justify-center gap-2"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            เปิดไฟล์
+                          </button>
+                          <button
+                            onClick={() => handleS3FileDownload(source.fileLink, source.fileName)}
+                            className="flex-1 bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-sm noto-sans-thai-medium transition flex items-center justify-center gap-2"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            ดาวน์โหลด
+                          </button>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
