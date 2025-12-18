@@ -225,18 +225,18 @@ export default function Home() {
                 />
                 */}
               </div>
-              <span className="ml-3 text-white font-semibold text-lg">แบรนด์ของคุณ</span>
+              <span className="ml-3 text-white noto-sans-thai-semibold text-lg">แบรนด์ของคุณ</span>
             </div>
             
             {/* Navigation items */}
             <div className="flex items-center space-x-4">
-              <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">
+              <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm noto-sans-thai-medium transition">
                 หน้าหลัก
               </button>
-              <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">
+              <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm noto-sans-thai-medium transition">
                 เกี่ยวกับเรา
               </button>
-              <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">
+              <button className="text-white/90 hover:text-white px-3 py-2 rounded-md text-sm noto-sans-thai-medium transition">
                 ติดต่อเรา
               </button>
             </div>
@@ -244,16 +244,73 @@ export default function Home() {
         </div>
       </nav>
 
+      {/* Announcement Bar - Change Awareness */}
+      <div className="bg-white/15 backdrop-blur-sm border-b border-white/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <svg className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="text-white noto-sans-thai-medium">
+                  อัปเดตล่าสุด: {changeLog[0].date} - {changeLog[0].announcement}
+                </p>
+                <p className="text-white/80 text-sm noto-sans-thai-regular">
+                  มีการเปลี่ยนแปลง {changeLog[0].changes.length} รายการในนโยบายและฟีเจอร์ของระบบ
+                </p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setShowChangeLog(!showChangeLog)}
+              className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+            >
+              {showChangeLog ? 'ซ่อน' : 'ดู'}การเปลี่ยนแปลงทั้งหมด
+            </button>
+          </div>
 
+          {/* Change Log Details */}
+          {showChangeLog && (
+            <div className="mt-4 bg-white/10 rounded-lg p-4 space-y-4">
+              <h3 className="text-white font-semibold text-lg mb-3">ประวัติการเปลี่ยนแปลงทั้งหมด</h3>
+              {changeLog.map((log, index) => (
+                <div key={index} className="bg-white/10 rounded-lg p-4 border border-white/20">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-white font-medium">{log.announcement}</h4>
+                    <span className="text-white/70 text-sm">{log.date}</span>
+                  </div>
+                  <div className="space-y-2">
+                    {log.changes.map((change, changeIndex) => (
+                      <div key={changeIndex} className="bg-white/5 rounded p-3">
+                        <p className="text-white/90 font-medium mb-1">{change.field}</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                          <div>
+                            <span className="text-red-300 font-medium">จาก: </span>
+                            <span className="text-white/80">{change.from}</span>
+                          </div>
+                          <div>
+                            <span className="text-green-300 font-medium">เป็น: </span>
+                            <span className="text-white/80">{change.to}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section with Search */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+          <h1 className="text-5xl md:text-6xl noto-sans-thai-bold text-white mb-4">
             ค้นหาสิ่งที่คุณต้องการ
           </h1>
-          <p className="text-xl text-white/90 mb-8">
+          <p className="text-xl text-white/90 mb-8 noto-sans-thai-regular">
             ค้นหาอัจฉริยะในเอกสาร นโยบาย และประกาศทั้งหมดของคุณ
           </p>
 
@@ -274,9 +331,9 @@ export default function Home() {
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-medium transition shadow-lg"
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl noto-sans-thai-medium transition shadow-lg"
               >
-                Search
+                ค้นหา
               </button>
             </div>
           </form>
@@ -287,25 +344,25 @@ export default function Home() {
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              <span>Typo Tolerant</span>
+              <span className="noto-sans-thai-medium">ทนต่อการพิมพ์ผิด</span>
             </div>
             <div className="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              <span>Semantic Search</span>
+              <span className="noto-sans-thai-medium">ค้นหาความหมาย</span>
             </div>
             <div className="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              <span>Multi-Format (Text, PDF, Images)</span>
+              <span className="noto-sans-thai-medium">หลายรูปแบบ (ข้อความ, PDF, รูปภาพ)</span>
             </div>
             <div className="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              <span>Natural Language</span>
+              <span className="noto-sans-thai-medium">ภาษาธรรมชาติ</span>
             </div>
           </div>
         </div>
@@ -318,8 +375,8 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h3 className="text-white font-semibold text-xl mb-2">Smart Document Search</h3>
-            <p className="text-white/80">Search across all document types with intelligent matching and relevance ranking.</p>
+            <h3 className="text-white noto-sans-thai-semibold text-xl mb-2">ค้นหาเอกสารอัจฉริยะ</h3>
+            <p className="text-white/80 noto-sans-thai-regular">ค้นหาในเอกสารทุกประเภทด้วยการจับคู่อัจฉริยะและการจัดอันดับความเกี่ยวข้อง</p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition">
@@ -328,8 +385,8 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 className="text-white font-semibold text-xl mb-2">Change Tracking</h3>
-            <p className="text-white/80">Stay informed with detailed change logs showing what changed, when, and why.</p>
+            <h3 className="text-white noto-sans-thai-semibold text-xl mb-2">ติดตามการเปลี่ยนแปลง</h3>
+            <p className="text-white/80 noto-sans-thai-regular">รับทราบข้อมูลด้วยบันทึกการเปลี่ยนแปลงที่ละเอียด แสดงสิ่งที่เปลี่ยน เมื่อไหร่ และเพราะอะไร</p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition">
@@ -338,8 +395,8 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h3 className="text-white font-semibold text-xl mb-2">Lightning Fast</h3>
-            <p className="text-white/80">Get instant results with our optimized search engine and caching system.</p>
+            <h3 className="text-white noto-sans-thai-semibold text-xl mb-2">รวดเร็วเหมือนฟ้าแลบ</h3>
+            <p className="text-white/80 noto-sans-thai-regular">ได้ผลลัพธ์ทันทีด้วยเครื่องมือค้นหาและระบบแคชที่ปรับให้เหมาะสม</p>
           </div>
         </div>
       </main>
