@@ -533,7 +533,7 @@ function CompareContent() {
 export default function ComparePage() {
   return (
     <div className="min-h-screen" style={{
-      background: 'linear-gradient(135deg, #db2777 0%, #a855f7 35%, #6366f1 60%, #1e40af 100%)'
+      background: 'linear-gradient(135deg, #be185d 0%, #7c2d92 25%, #4c1d95 50%, #1e3a8a 75%, #0f172a 100%)'
     }}>
       <Navbar />
       <AnnouncementBar />

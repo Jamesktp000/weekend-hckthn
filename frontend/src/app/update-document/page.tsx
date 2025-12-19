@@ -201,7 +201,7 @@ ${changeLogComment}
 
   return (
     <div className="min-h-screen" style={{ 
-      background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #8b5cf6 100%)'
+      background: 'linear-gradient(135deg, #be185d 0%, #7c2d92 25%, #4c1d95 50%, #1e3a8a 75%, #0f172a 100%)'
     }}>
       <Navbar />
       <AnnouncementBar />

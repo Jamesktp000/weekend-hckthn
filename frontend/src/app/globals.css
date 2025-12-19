@@ -85,7 +85,7 @@ body {
   position: absolute;
   inset: 0;
   padding: 1px;
-  background: linear-gradient(135deg, #e91e63, #9c27b0, #673ab7, #3f51b5);
+  background: linear-gradient(135deg, #842645, #9c27b0, #673ab7, #3f51b5);
   border-radius: inherit;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;

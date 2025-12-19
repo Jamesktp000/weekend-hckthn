@@ -107,7 +107,7 @@ export default function SubjectPage({ params }: { params: { subjectId: string } 
 
   return (
     <div className="min-h-screen" style={{
-      background: 'linear-gradient(135deg, #e91e63 0%, #9c27b0 25%, #673ab7 50%, #3f51b5 75%, #1a237e 100%)'
+      background: 'linear-gradient(135deg, #be185d 0%, #7c2d92 25%, #4c1d95 50%, #1e3a8a 75%, #0f172a 100%)'
     }}>
       <Navbar />
       <AnnouncementBar />
