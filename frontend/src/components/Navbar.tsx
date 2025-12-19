@@ -27,6 +27,9 @@ export default function Navbar() {
             <Link href="/" className="text-white px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300 shadow-md hover:shadow-lg" style={{ backgroundColor: '#1e3a8a' }}>
               หน้าหลัก
             </Link>
+            <Link href="/update-document" className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
+              อัพเดทเอกสาร
+            </Link>
             <button className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 px-4 py-3 rounded-xl text-sm noto-sans-thai-medium transition-all duration-300">
               ติดต่อสำนักงานใหญ่
             </button>
